@@ -104,7 +104,7 @@ public:
     // The AllegroHandPlexusHardwareInterface expects 16 joints.
     info_.name = "allegro_hand_plexus";
     info_.type = "system";
-    info_.hardware_class_type = "allegro_hand_plexus_hardware/AllegroHandPlexusHardwareInterface";
+    // info_.hardware_class_type = "allegro_hand_plexus_hardware/AllegroHandPlexusHardwareInterface";
 
     info_.hardware_parameters["io_interface_descriptor"] = "can:can0";
     info_.hardware_parameters["hand_id"] = "1";

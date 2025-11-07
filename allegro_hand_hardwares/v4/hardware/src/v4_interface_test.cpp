@@ -78,7 +78,7 @@ public:
     // AllegroHandV4HardwareInterface expects 16 joints.
     info_.name = "allegro_hand_v4";
     info_.type = "system";
-    info_.hardware_class_type = "allegro_hand_v4_hardware/AllegroHandV4HardwareInterface";
+    // info_.hardware_class_type = "allegro_hand_v4_hardware/AllegroHandV4HardwareInterface";
 
     info_.hardware_parameters["io_interface_descriptor"] = "can:can0";
     info_.hardware_parameters["device_prefix"] = ""; // Set empty prefix for testing
