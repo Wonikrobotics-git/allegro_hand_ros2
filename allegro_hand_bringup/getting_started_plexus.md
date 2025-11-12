@@ -82,11 +82,6 @@ ros2 launch allegro_hand_bringup allegro_hand_plexus.launch.py ros2_control_hard
 ros2 launch allegro_hand_bringup allegro_hand_plexus.launch.py hand:=left
 ```
 
-#### Dual Hand 
-
-```bash
-ros2 launch allegro_hand_bringup allegro_hand_plexus_duo.launch.py
-```
 
 #### State Topics 
 
@@ -99,37 +94,52 @@ You can check the status of the controllers in a new terminal:
 ros2 control list_controllers
 ```
 
-### 3. Test with Position-Effort Controller
+### 3. Test with Position Controller
 
-The `allegro_hand_position_effort_controller` is active by default. You can send commands to two different topics to control the hand.
 
-#### 3.1. Position Control
+#### 3.1. Manual Control with RQT
 
-Send a command to the `~/commands` topic to move all joints to a position of `0.5` radians.
+The `rqt_forward_command_controller` provides a GUI to manually control each joint.
 
-```bash
-ros2 topic pub /allegro_hand_position_effort_controller/commands std_msgs/msg/Float64MultiArray "layout:
-  dim:
-  - label: ''
-    size: 16
-    stride: 1
-  data_offset: 0
-data: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]"
-```
+<img src="./images/rqt_plexus.png" width="600">
 
-#### 3.2. Effort (Torque) Control
+1.  Open RQT:
+    ```bash
+    rqt
+    ```
+2.  In the RQT window, select **Plugins** > **Robot Tools** > **Forward Command Controller**.
+3.  In the plugin's GUI:
+    * Select the `controller manager ns` (usually `/`).
+    * Select `allegro_hand_position_controller` from the `controller` dropdown.
+    * Click the central power button to enable "Control Mode".
+    * You can now move the sliders to control each joint of the Allegro Hand in real-time.
 
-Send a command to the `~/commands_effort` topic to apply `0.1` Nm of torque to all joints.
+> **NOTE**     
+> If you don't see `Forward Command Controller` in the list of rqt plugins, you need to run rqt_forward_command_controller once in the terminal as shown below.    
+> ```bash
+> $ source ${YOUR_WORKSPACE}/install/setup.sh
+> $ ros2 run rqt_forward_command_controller rqt_forward_command_controller --force-discover
+> ```
 
-```bash
-ros2 topic pub /allegro_hand_position_effort_controller/commands_effort std_msgs/msg/Float64MultiArray "layout:
-  dim:
-  - label: ''
-    size: 16
-    stride: 1
-  data_offset: 0
-data: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]"
-```
+
+#### 3.2 Test with Python Motion Scripts
+
+This package includes Python scripts that demonstrate more complex, continuous motions.  
+
+These scripts can be used with both the `allegro_hand_position_controller` and the `allegro_hand_position_effort_controller`.
+
+*   **Opening and Releasing Motion**: Repeatedly opens and closes the hand in a fist motion. 
+
+    ```bash
+    ros2 run allegro_hand_bringup opening_releasing.py --ros-args -p device_name:=plexus -p controller_name:=allegro_hand_position_controller
+    ```
+
+*   **Finger Wave Motion**: Executes a continuous, caterpillar-like wave motion with all fingers.
+
+    ```bash
+    ros2 run allegro_hand_bringup finger_wave.py --ros-args -p device_name:=plexus -p controller_name:=allegro_hand_position_effort_controller
+    ```
+
 
 ## Hardware Interface Details
 

@@ -66,13 +66,13 @@ def generate_launch_description():
     allegro_hand_position_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["allegro_hand_position_controller", "-c", "/controller_manager", "--inactive"],
+        arguments=["allegro_hand_position_controller", "-c", "/controller_manager"],
     ) 
 
-    allegro_hand_grasp_controller_spawner = Node(
+    allegro_hand_position_effort_controller = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["allegro_hand_position_effort_controller", "-c", "/controller_manager"],
+        arguments=["allegro_hand_position_effort_controller", "-c", "/controller_manager", "--inactive"],
     ) 
 
     bringup_pkg_path = get_package_share_directory('allegro_hand_bringup')
@@ -128,7 +128,7 @@ def generate_launch_description():
         joint_state_broadcaster_spawner,
         allegro_hand_imu_broadcaster_spawner, 
         allegro_hand_position_controller_spawner, 
-        allegro_hand_grasp_controller_spawner,
+        allegro_hand_position_effort_controller,
         diagnostic_aggregator_node,
         rviz_node,
     ])

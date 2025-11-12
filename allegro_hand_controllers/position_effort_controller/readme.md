@@ -1,6 +1,11 @@
 # Allegro Hand Position-Effort Controller
 
-This package provides an advanced, multi-interface controller for the Allegro Hand, designed for use with the `ros2_control` framework. This controller uniquely combines `position` and `effort` command interfaces, allowing for hybrid control strategies. It is primarily intended for use with the **Allegro Hand Plexus**.
+This package provides an advanced, multi-interface controller for the Allegro Hand, designed for use with the `ros2_control` framework. 
+
+This controller provides both `position` and `effort` command interfaces. Here, 'effort' refers to the maximum torque for each joint motor. While a standard position controller allows adjusting the maximum motor torque as a constant parameter, the Position-Effort Controller enables real-time control of both position and the maximum torque for each motor. This makes it highly applicable for a variety of grasping motions.
+
+It is primarily intended for use with the **Allegro Hand Plexus**.
+
 
 ## Controller
 
