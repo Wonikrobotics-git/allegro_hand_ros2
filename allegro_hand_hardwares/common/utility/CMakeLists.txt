@@ -1,20 +1,13 @@
 cmake_minimum_required(VERSION 3.16)
 project(allegro_hand_utility LANGUAGES CXX)
 
-# Set the default build type to Release if it's not specified.
-# This enables optimizations and disables debug information by default.
+# Set default build type to Release
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
   message(STATUS "Defaulting build type to 'Release'")
 endif()
 
-# Set the default build type to Release if it's not specified.
-# This enables optimizations and disables debug information by default.
-if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE Release)
-  message(STATUS "Defaulting build type to 'Release'")
-endif()
-
+# Compiler flags
 if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
   add_compile_options(-Wall -Wextra)
 endif()
@@ -32,34 +25,26 @@ set(LIB_SOURCES
   src/ros_utility.cpp
 )
 
-# Create a shared library
-set(SHARED_LIB_NAME ${PROJECT_NAME})
-add_library(${SHARED_LIB_NAME} SHARED ${LIB_SOURCES})
+add_library(${PROJECT_NAME} SHARED ${LIB_SOURCES})
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
-# --- Configure Library ---
-target_compile_features(${SHARED_LIB_NAME} PUBLIC cxx_std_17)
-
-target_include_directories(${SHARED_LIB_NAME} PUBLIC
+# Include directories
+target_include_directories(${PROJECT_NAME} PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
-  ${rclcpp_INCLUDE_DIRS}
-  ${hardware_interface_INCLUDE_DIRS}
-  ${Boost_INCLUDE_DIRS}
 )
 
-# For Debug
-# target_compile_definitions(${SHARED_LIB_NAME} PUBLIC SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE)
-
-# For system dependencies, it's more robust to use target_link_libraries with imported targets.
-target_link_libraries(${SHARED_LIB_NAME} PUBLIC
-  spdlog::spdlog
-  ${rclcpp_LIBRARIES}
-  ${hardware_interface_LIBRARIES}
+# Link dependencies using imported targets
+ament_target_dependencies(${PROJECT_NAME}
+  rclcpp
+  hardware_interface
+  spdlog
+  Boost
 )
 
-# --- Test Executable for Linkage Check ---
+# --- Test Executable ---
 add_executable(test_library test/test_library.cpp)
-target_link_libraries(test_library PUBLIC ${SHARED_LIB_NAME})
+target_link_libraries(test_library PUBLIC ${PROJECT_NAME})
 
 # --- Installation ---
 install(
@@ -68,7 +53,7 @@ install(
 )
 
 install(
-  TARGETS ${SHARED_LIB_NAME}
+  TARGETS ${PROJECT_NAME}
   EXPORT export_${PROJECT_NAME}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
@@ -76,18 +61,13 @@ install(
   INCLUDES DESTINATION include
 )
 
-# --- Exporting ---
-ament_export_targets(export_${PROJECT_NAME} HAS_LIBRARY_TARGET)
-
-set(LIB_DEPS
-  spdlog
-  Boost 
-)
-ament_export_dependencies(${LIB_DEPS})
-
 install(
   TARGETS test_library
   DESTINATION lib/${PROJECT_NAME}
 )
 
+# --- Exporting ---
+ament_export_targets(export_${PROJECT_NAME} HAS_LIBRARY_TARGET)
+ament_export_dependencies(rclcpp hardware_interface spdlog Boost)
 ament_package()
+
