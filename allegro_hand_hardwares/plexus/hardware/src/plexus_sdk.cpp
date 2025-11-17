@@ -51,10 +51,6 @@
 
 namespace plexus_sdk {
 
-// /// @brief The name for the p_gain parameter group, used for ROS 2 parameter handling.
-// const char* HandPlexus::P_GAIN_GROUP = "p_gain";
-// /// @brief The name for the d_gain parameter group, used for ROS 2 parameter handling.
-// const char* HandPlexus::D_GAIN_GROUP = "d_gain";
 /// @brief The name for the torque_limit parameter group, used for ROS 2 parameter handling.
 const char* HandPlexus::TORQUE_LIMIT_GROUP = "torque_limit";
 
@@ -120,9 +116,9 @@ static const std::set<int> RTR_MESSAGE_IDS{
  * @brief Constructs the HandPlexus object, initializing the SDK.
  *
  * This constructor is the main entry point for the SDK. It performs the following steps:
- * 1. Initializes PD controllers for each joint using the gains provided in the `Options` struct.
- * 2. Sets the maximum torque limit for each joint.
- * 3. Calls the private `_initialize()` method to establish communication with the physical hand.
+ * 1. Sets the maximum torque limit for each joint from the `Options` struct.
+ * 2. Calls the private `_initialize()` method to establish communication with the physical hand.
+ *
  * @param options The configuration options, including CAN interface descriptor, hand ID, and gain tables.
  * @throws std::runtime_error if `_initialize()` fails (e.g., due to a CAN communication error).
  */
@@ -180,6 +176,13 @@ std::string HandPlexus::State::to_string() const {
   return s;
 }
 
+/**
+ * @brief Converts the current command for the hand to a formatted string.
+ *
+ * This method provides a human-readable representation of the hand's current command values,
+ * including desired position and torque. It is primarily used for logging and debugging.
+ * @return A string representing the current command values.
+ */
 std::string HandPlexus::Command::to_string() const {
   std::string s;
   s += "Hand Command:\n";
@@ -275,12 +278,6 @@ bool HandPlexus::_initialize() {
   };
 
   auto encode_io_frame_header_can = [this](const uint32_t& message_id) {
-    // uint32_t can_id = 0;
-    // ((can_id_t*)&can_id)->message_id = message_id;
-    // ((can_id_t*)&can_id)->hand_id = options_.hand_id;
-    // ((can_id_t*)&can_id)->rtr = (RTR_MESSAGE_IDS.count(message_id) > 0);
-    // return can_id;
-
     can_id_t id_struct = {};
     id_struct.message_id = message_id;
     id_struct.hand_id = options_.hand_id;
@@ -361,9 +358,10 @@ bool HandPlexus::_set_sampling_period() {
  * @brief Sends a position command to a specific finger (used in POSITION_CONTROL mode).
  *
  * This function packs the four joint position commands for a given finger into a
- * single CAN message and sends it.
+ * single CAN message and sends it. The message ID is determined by adding the finger index
+ * to the base ID `ID_CMD_SET_POSE`.
  * @param finger_idx The index of the finger to command.
- * @return Always returns false.
+ * @return True if the command was sent successfully, false otherwise.
  */
 bool HandPlexus::_set_position(unsigned int finger_idx) {
   assert(finger_idx < FINGER_MAX);
@@ -412,6 +410,13 @@ void HandPlexus::_rcv_position(unsigned int finger_idx, const uint8_t* data) {
   signal_rate_monitor_.tick(fmt::format("rcv_position{}", finger_idx));
 }
 
+/**
+ * @brief Handles a received velocity data frame.
+ *
+ * This private callback decodes raw velocity data for a finger and updates the `JointState`.
+ * @param finger_idx The index of the finger providing the data.
+ * @param data A pointer to the raw CAN data payload.
+ */
 void HandPlexus::_rcv_velocity(unsigned int finger_idx, const uint8_t* data) {
   assert(finger_idx < FINGER_MAX);
   for (int j_idx = 0; j_idx < JONIT_PER_FINGER; j_idx++) {
@@ -561,16 +566,8 @@ void HandPlexus::periodic_request() {
     }
   }
 
-#if 0
-  SPDLOG_TRACE("periodic_request. command_\n{}", command_.to_string()); 
-#endif 
-
-
 #if 0 /// DEBUG
-
   SPDLOG_TRACE("periodic_request----");
-
-  // Debugging
   {
     std::vector<std::string> lines;
     for (const auto& [key, num] : rtr_message_counter_) {
@@ -589,7 +586,6 @@ void HandPlexus::periodic_request() {
   } else {
     SPDLOG_ERROR("NOT ALL RTR MESSAGES SEND OK");
   }
-
 #endif /// DEBUG 
 
   request_count_++; 
@@ -632,30 +628,6 @@ data_info_t HandPlexus::get_main_board_state() const {
  */
 std::vector<double> HandPlexus::read_gains(const char* group_name) {
 
-#if 0
-  auto read_p_gains = [this]{
-    std::vector<double> gains;
-    for (int io_idx = 0; io_idx < JONIT_MAX; io_idx++) {
-      int finger_idx = io_idx / JONIT_PER_FINGER;
-      int joint_idx = io_idx % JONIT_PER_FINGER;
-      // gains.push_back(command_.joints[finger_idx][joint_idx].position_controller->get_kp());
-      gains.push_back(0); // 폐기 
-    }
-    return gains;
-  };
-
-  auto read_d_gains = [this]{
-    std::vector<double> gains;
-    for (int io_idx = 0; io_idx < JONIT_MAX; io_idx++) {
-      int finger_idx = io_idx / JONIT_PER_FINGER;
-      int joint_idx = io_idx % JONIT_PER_FINGER;
-      // gains.push_back(command_.joints[finger_idx][joint_idx].position_controller->get_kd()); 
-      gains.push_back(0);  // 폐기 
-    }
-    return gains;
-  };
-#endif 
-
   auto read_torque_max = [this]{
     std::vector<double> gains;
     for (int io_idx = 0; io_idx < JONIT_MAX; io_idx++) {
@@ -669,20 +641,9 @@ std::vector<double> HandPlexus::read_gains(const char* group_name) {
   std::lock_guard<SpinLock> lock(lock_);
 
   std::vector<double> table;
-
-  #if 0
-  if (strcmp(group_name, HandPlexus::P_GAIN_GROUP) == 0) {
-    table = read_p_gains();
-  } else if (strcmp(group_name, HandPlexus::D_GAIN_GROUP) == 0) {
-    table = read_d_gains(); 
-  } else if (strcmp(group_name, HandPlexus::TORQUE_LIMIT_GROUP) == 0) {
-    table = read_torque_max();
-  }
-  #else 
   if (strcmp(group_name, HandPlexus::TORQUE_LIMIT_GROUP) == 0) {
     table = read_torque_max();
   }
-  #endif 
 
   return table;
 }
@@ -698,26 +659,7 @@ std::vector<double> HandPlexus::read_gains(const char* group_name) {
  * @param gains A vector of gain values to set.
  */
 void HandPlexus::write_gains(const char* group_name, const std::vector<double>& gains) {
-
   assert(gains.size() == JONIT_MAX);
-
-#if 0
-  auto write_p_gains = [this](const std::vector<double>& new_gains) {
-    for (int io_idx = 0; io_idx < JONIT_MAX; io_idx++) {
-      int finger_idx = io_idx / JONIT_PER_FINGER;
-      int joint_idx = io_idx % JONIT_PER_FINGER;
-      // command_.joints[finger_idx][joint_idx].position_controller->set_kp(new_gains[io_idx]);
-    }
-  };
-
-  auto write_d_gains = [this](const std::vector<double>& new_gains) {
-    for (int io_idx = 0; io_idx < JONIT_MAX; io_idx++) {
-      int finger_idx = io_idx / JONIT_PER_FINGER;
-      int joint_idx = io_idx % JONIT_PER_FINGER;
-      // command_.joints[finger_idx][joint_idx].position_controller->set_kd(new_gains[io_idx]);
-    }
-  };
-#endif 
 
   auto write_torque_max = [this](const std::vector<double>& torque_limits) {
     for (int io_idx = 0; io_idx < JONIT_MAX; io_idx++) {
@@ -729,19 +671,9 @@ void HandPlexus::write_gains(const char* group_name, const std::vector<double>& 
 
   std::lock_guard<SpinLock> lock(lock_);
 
-#if 0
-  if (strcmp(group_name, HandPlexus::P_GAIN_GROUP) == 0) {
-    write_p_gains(gains);
-  } else if (strcmp(group_name, HandPlexus::D_GAIN_GROUP) == 0) {
-    write_d_gains(gains);
-  } else if (strcmp(group_name, HandPlexus::TORQUE_LIMIT_GROUP) == 0) {
-    write_torque_max(gains);
-  }
-#else 
   if (strcmp(group_name, HandPlexus::TORQUE_LIMIT_GROUP) == 0) {
     write_torque_max(gains);
   }
-#endif 
 }
 
 /**
@@ -824,9 +756,5 @@ void HandPlexus::write_commands(const double* position_command, const double* ve
     } 
   } 
 }
-
-
-
-
 
 } // namespace plexus_sdk
