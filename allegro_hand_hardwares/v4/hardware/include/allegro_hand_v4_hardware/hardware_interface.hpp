@@ -50,6 +50,7 @@
 #include <hardware_interface/types/hardware_interface_return_values.hpp>
 #include <hardware_interface/types/hardware_interface_type_values.hpp>
 
+#include <allegro_hand_v4_hardware/visibility_control.h>
 #include <allegro_hand_utility/ros_utility.hpp>
 using allegro_hand_utility::HardwareInfoParser;
 
@@ -58,22 +59,41 @@ namespace allegro_hand_v4_hardware {
 class AllegroHandV4HardwareInterface : public hardware_interface::SystemInterface {
 public:
   RCLCPP_SHARED_PTR_DEFINITIONS(AllegroHandV4HardwareInterface)
+
+  ALLEGRO_HAND_V4_HW_INTERFACE_PUBLIC
   hardware_interface::CallbackReturn on_init(const hardware_interface::HardwareInfo& info) override;
+
+  ALLEGRO_HAND_V4_HW_INTERFACE_PUBLIC
   hardware_interface::CallbackReturn on_configure(const rclcpp_lifecycle::State&) override;
+
+  ALLEGRO_HAND_V4_HW_INTERFACE_PUBLIC
   hardware_interface::CallbackReturn on_activate(const rclcpp_lifecycle::State& previous_state) override;
+
+  ALLEGRO_HAND_V4_HW_INTERFACE_PUBLIC
   hardware_interface::CallbackReturn on_deactivate(const rclcpp_lifecycle::State& previous_state) override;
+
+  ALLEGRO_HAND_V4_HW_INTERFACE_PUBLIC
   std::vector<hardware_interface::StateInterface> export_state_interfaces() override;
+
+  ALLEGRO_HAND_V4_HW_INTERFACE_PUBLIC
   std::vector<hardware_interface::CommandInterface> export_command_interfaces() override;
+
+  ALLEGRO_HAND_V4_HW_INTERFACE_PUBLIC
   hardware_interface::return_type prepare_command_mode_switch(const std::vector<std::string>& start_interfaces,
                                                               const std::vector<std::string>& stop_interfaces) override;
+
+  ALLEGRO_HAND_V4_HW_INTERFACE_PUBLIC                                                            
   hardware_interface::return_type perform_command_mode_switch(const std::vector<std::string>& start_interfaces,
                                                               const std::vector<std::string>& stop_interfaces) override;
+  
+  ALLEGRO_HAND_V4_HW_INTERFACE_PUBLIC                                                            
   hardware_interface::return_type read(const rclcpp::Time& time, const rclcpp::Duration& period) override;
+
+  ALLEGRO_HAND_V4_HW_INTERFACE_PUBLIC
   hardware_interface::return_type write(const rclcpp::Time& time, const rclcpp::Duration& period) override;
 
-  static constexpr int JOINT_NUM = 16;
-
 private:
+  static constexpr int JOINT_NUM = 16;
   std::shared_ptr<HardwareInfoParser> hwinfo_parser_;
 
   std::shared_ptr<rclcpp::Node> dev_node_;
