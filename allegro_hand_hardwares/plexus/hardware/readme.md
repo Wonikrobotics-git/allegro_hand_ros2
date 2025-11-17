@@ -101,7 +101,7 @@ Run a launch file that includes the `ros2_control_node` to load the hardware int
 
 ### 6.3. Checking Status
 
-While the controller is running, you can use the following ROS 2 commands to check the main hardware statuses.
+While the controller is running, you can use the following ROS 2 commands to check the main hardware statuses directly from the terminal.
 
 #### Checking Joint States
 
@@ -109,6 +109,14 @@ The position, velocity, and effort of each joint are published to the `/joint_st
 
 ```bash
 ros2 topic echo /joint_states
+```
+
+#### Checking Joint Temperatures
+
+The temperature of each joint is published to the `/dynamic_joint_states` topic by the `joint_state_broadcaster`. You can check the real-time temperature values with the following command.
+
+```bash
+ros2 topic echo /dynamic_joint_states
 ```
 
 #### Checking Diagnostic Messages
@@ -122,3 +130,94 @@ ros2 run rqt_robot_monitor rqt_robot_monitor
 # Check directly in the terminal
 ros2 topic echo /diagnostics
 ```
+
+<img src="./images/rqt_robot_monitor.png" width="600">
+
+
+### 6.4. Parameters
+
+This hardware interface supports real-time checking and dynamic tuning of the Allegro Hand's PD control gains and torque limits via the ROS 2 parameter server. This feature is handled by a separate node, independent of the control loop, so it does not affect real-time performance.
+
+#### Parameters
+
+This hardware interface provides the following four groups of parameters. Each parameter is named in the format `group/finger_name/sequence_joint_name`.
+
+
+* **`torque_limit`**: **Maximum Torque Limit** for each joint
+    * **Description**: This value limits the maximum torque that each joint can produce. It serves as a safety feature to protect the motors and prevent grasping objects too forcefully. (Unit: normalized torque value, 0.0 to 1.0)
+    * **Example**: `2_torque_limit/Thumb/0_joint_p_00`
+
+* **`initial_position`**: **Initial Position** for each joint
+    * **Description**: This is the initial position (pose) that each joint will assume when the controller is activated. This value can be set within the joint's position limits defined in the URDF.
+    * **Example**: `3_initial_position/Thumb/0_joint_p_00`
+
+
+#### Checking Parameters
+
+The hand's parameters are managed through the `/ah_AllegroHandPlexus` node.
+
+First, you can list all configurable parameters using the `ros2 param list` command.
+
+```bash
+ros2 param list /ah_AllegroHandPlexus
+```
+
+To check the gain value of a specific joint, use the `ros2 param get` command.
+
+```bash
+# Example: Check the torque limit of the thumb's first joint ('joint00')
+ros2 param get /ah_AllegroHandPlexus torque_limit/Thumb/joint00
+```
+
+#### Updating Parameters
+
+You can change a specific parameter value in real-time using the `ros2 param set` command. The changed value is immediately applied to the hardware.
+
+```bash
+# Example: Set the torque limit of the 'joint00' joint to 0.2
+ros2 param set /ah_AllegroHandPlexus torque_limit/Thumb/joint00 0.2
+```
+
+Using a GUI tool like `rqt_reconfigure` allows for more intuitive parameter tuning.
+
+```bash
+ros2 run rqt_reconfigure rqt_reconfigure
+```
+
+<img src="./images/rqt_reconfigure.png" width="600">
+
+
+#### rig_reconfigure
+
+We recommend using `rig_reconfigure`, which provides a more user-friendly UI than `rqt_reconfigure`. As `rig_reconfigure` is not a default ROS 2 package, you need to build it from the source code.
+
+```bash
+# Clone the source code
+cd ~/your_ros2_ws/src
+git clone --recursive https://github.com/teamspatzenhirn/rig_reconfigure.git
+```
+
+```bash
+# Build the package with `colcon`
+cd ~/your_ros2_ws
+colcon build --packages-select rig_reconfigure
+```
+
+```bash
+# Run
+ros2 run rig_reconfigure rig_reconfigure
+```
+
+Once the GUI is running, you can select the `/ah_AllegroHandPlexus` node from the dropdown menu at the top to check and modify parameters in real-time.
+
+<img src="./images/rig_reconfigure.png" width="600">
+
+#### Saving Parameters
+The parameters tuned in real-time are only applied to the ROS 2 parameter server. To save these values permanently, you must 'dump' the current parameter values into a YAML file. The `ros2 param dump` command allows you to save all parameters of a specific node to a file.
+
+```bash
+# Example: Save all parameters of the /ah_AllegroHandPlexus node to a my_gains.yaml file
+ros2 param dump /ah_AllegroHandPlexus --output-dir ./config
+```
+
+Executing the above command will create a `ah_AllegroHandPlexus.yaml` file in the `config` folder under the current directory. 

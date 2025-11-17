@@ -212,8 +212,8 @@ public:
  * @class ParameterHandler
  * @brief Manages ROS 2 parameters for the hardware interface.
  *
- * This class encapsulates all logic related to ROS 2 parameters. It declares parameters
- * for PD gains (p_gain, d_gain) and torque limits for each joint.
+ * This class encapsulates all logic related to ROS 2 parameters. It declares parameters for
+ * torque limits for each joint.
  * It provides a callback to handle real-time parameter updates from external tools
  * like `ros2 param set` or `rqt_reconfigure`. The class also includes helper functions
  * to manage the mapping between ROS parameter names and the internal data structures
@@ -233,10 +233,6 @@ class ParameterHandler {
   /// @brief Callback handle for parameter changes.
   rclcpp::node_interfaces::OnSetParametersCallbackHandle::SharedPtr param_set_callback_;
 
-  // /// @brief Map of P gains, keyed by base joint name (e.g., "joint10").
-  // std::map<std::string, double> p_gain_table_;
-  // /// @brief Map of D gains, keyed by base joint name.
-  // std::map<std::string, double> d_gain_table_;
   /// @brief Map of torque limits, keyed by base joint name.
   std::map<std::string, double> torque_limit_table_;
   /// @brief Map of initial positions, keyed by base joint name.
@@ -261,8 +257,8 @@ class ParameterHandler {
   /**
    * @brief Decodes a ROS 2 parameter name into its group and original joint name.
    *
-   * This is the reverse of `encode_finger_parameter_name`. It parses a string like "0_p_gain/Index/joint10"
-   * and returns the base group ("p_gain") and the original joint name ("joint10").
+   * This is the reverse of `encode_finger_parameter_name`. It parses a string like "torque_limit/Index/joint10"
+   * and returns the base group ("torque_limit") and the original joint name ("joint10").
    * @param parameter_name The full ROS 2 parameter name.
    * @return A pair containing the group name and the original joint name.
    */
@@ -279,29 +275,18 @@ class ParameterHandler {
     std::string param_group_name = parts[0];
     const std::string& joint_name = parts[2];
 
-    // The extracted group name might have a prefix (e.g., "0_p_gain").
-    // We check for the base gain group patterns and return the base name if found.
-#if 0
-    if (param_group_name.find(plexus_sdk::HandPlexus::P_GAIN_GROUP) != std::string::npos) {
-      return {plexus_sdk::HandPlexus::P_GAIN_GROUP, joint_name};
-    } else if (param_group_name.find(plexus_sdk::HandPlexus::D_GAIN_GROUP) != std::string::npos) {
-      return {plexus_sdk::HandPlexus::D_GAIN_GROUP, joint_name};
-    } else if (param_group_name.find(plexus_sdk::HandPlexus::TORQUE_LIMIT_GROUP) != std::string::npos) {
-      return {plexus_sdk::HandPlexus::TORQUE_LIMIT_GROUP, joint_name};
-    }
-#else
+    // We check for the base group patterns and return the base name if found.
     if (param_group_name.find(plexus_sdk::HandPlexus::TORQUE_LIMIT_GROUP) != std::string::npos) {
       return {plexus_sdk::HandPlexus::TORQUE_LIMIT_GROUP, joint_name};
     }
-#endif
     return {param_group_name, joint_name}; // Return original if no match
   }
 
   /**
    * @brief Callback for handling parameter changes.
    *
-   * This function is triggered when a `ros2 param set` command is issued. It decodes the
-   * parameter name to identify the group and joint, updates the local gain table, and then
+   * This function is triggered when a `ros2 param set` command is issued. It decodes the parameter
+   * name to identify the group (`torque_limit`) and joint, updates the local table, and then
    * calls the SDK's `write_gains` function to apply the change to the hardware in real-time.
    * @param parameters The list of parameters being changed.
    * @return A result indicating if the parameter change was successful.
@@ -321,7 +306,7 @@ class ParameterHandler {
         continue;
       }
 
-      // Process parameters belonging to the gain groups (p_gain, d_gain, torque_max).
+      // Process parameters belonging to the torque limit group.
       auto [param_group_name, joint_name] = decode_finger_parameter_name(param.get_name());
 
       if (param_group_name.empty() || joint_name.empty()) {
@@ -331,45 +316,21 @@ class ParameterHandler {
         return result;
       }
 
-#if 0
-      if (param_group_name != plexus_sdk::HandPlexus::P_GAIN_GROUP && param_group_name != plexus_sdk::HandPlexus::D_GAIN_GROUP &&
-          param_group_name != plexus_sdk::HandPlexus::TORQUE_LIMIT_GROUP) {
-        RCLCPP_ERROR(node_->get_logger(), "Invalid parameter group: %s", param_group_name.c_str());
-        auto result = rcl_interfaces::msg::SetParametersResult();
-        result.successful = false;
-        return result;
-      }
-#else
       if (param_group_name != plexus_sdk::HandPlexus::TORQUE_LIMIT_GROUP) {
         RCLCPP_ERROR(node_->get_logger(), "Invalid parameter group: %s", param_group_name.c_str());
         auto result = rcl_interfaces::msg::SetParametersResult();
         result.successful = false;
         return result;
       }
-#endif
 
-      std::map<std::string, double>* gain_table = nullptr;
+      std::map<std::string, double>* table_to_update = nullptr;
 
-#if 0
-      if (param_group_name == plexus_sdk::HandPlexus::P_GAIN_GROUP) {
-        p_gain_table_[joint_name] = param.as_double();
-        gain_table = &p_gain_table_;
-      } else if (param_group_name == plexus_sdk::HandPlexus::D_GAIN_GROUP) {
-        d_gain_table_[joint_name] = param.as_double();
-        gain_table = &d_gain_table_;
-      } else if (param_group_name == plexus_sdk::HandPlexus::TORQUE_LIMIT_GROUP) {
-        torque_limit_table_[joint_name] = param.as_double();
-        gain_table = &torque_limit_table_;
-      }
-#else
       if (param_group_name == plexus_sdk::HandPlexus::TORQUE_LIMIT_GROUP) {
         torque_limit_table_[joint_name] = param.as_double();
-        gain_table = &torque_limit_table_;
+        table_to_update = &torque_limit_table_;
       }
-#endif
-
-      if (device_ && gain_table) {
-        device_->write_gains(param_group_name.c_str(), serialize_table(*gain_table));
+      if (device_ && table_to_update) {
+        device_->write_gains(param_group_name.c_str(), serialize_table(*table_to_update));
         success_count++;
       }
     }
@@ -421,29 +382,11 @@ class ParameterHandler {
    * 2. Declares these parameters to the ROS 2 parameter server, allowing them to be overridden by user configurations at launch.
    */
   void init_parameters() {
-    // p_gain_table_ = deserialize_table(info_parser_->k_p_table());
-    // d_gain_table_ = deserialize_table(info_parser_->k_d_table());
     torque_limit_table_ = deserialize_table(info_parser_->torque_limit_table());
     initial_position_table_ = deserialize_table(info_parser_->initial_position_table());
 
     const auto& joint_position_limit_min_table = deserialize_table(info_parser_->joint_position_limit_min_table());
     const auto& joint_position_limit_max_table = deserialize_table(info_parser_->joint_position_limit_max_table());
-
-    // auto p_gain_descriptor = rcl_interfaces::msg::ParameterDescriptor();
-    // p_gain_descriptor.description = "Proportional gain (Kp) for a joint's PD controller. normalized torque units.";
-    // p_gain_descriptor.type = rclcpp::ParameterType::PARAMETER_DOUBLE;
-    // rcl_interfaces::msg::FloatingPointRange p_range;
-    // p_range.from_value = 0.0;
-    // p_range.to_value = 100.0;
-    // p_gain_descriptor.floating_point_range.push_back(p_range);
-
-    // auto d_gain_descriptor = rcl_interfaces::msg::ParameterDescriptor();
-    // d_gain_descriptor.description = "Derivative gain (Kd) for a joint's PD controller. normalized torque units.";
-    // d_gain_descriptor.type = rclcpp::ParameterType::PARAMETER_DOUBLE;
-    // rcl_interfaces::msg::FloatingPointRange d_range;
-    // d_range.from_value = 0.0;
-    // d_range.to_value = 100.0;
-    // d_gain_descriptor.floating_point_range.push_back(d_range);
 
     auto torque_limit_descriptor = rcl_interfaces::msg::ParameterDescriptor();
     torque_limit_descriptor.description = "Maximum torque limit for a joint. normalized torque units.";
@@ -458,20 +401,11 @@ class ParameterHandler {
     initial_position_descriptor.type = rclcpp::ParameterType::PARAMETER_DOUBLE;
     initial_position_descriptor.read_only = true;
 
-    // std::string P_GAIN_GROUP_NAME = fmt::format("0_{}", plexus_sdk::HandPlexus::P_GAIN_GROUP);
-    // std::string D_GAIN_GROUP_NAME = fmt::format("1_{}", plexus_sdk::HandPlexus::D_GAIN_GROUP);
-
     std::string TORQUE_LIMIT_GROUP_NAME = plexus_sdk::HandPlexus::TORQUE_LIMIT_GROUP;
     std::string INITIAL_POSITION_GROUP_NAME = "initial_position";
 
     const auto& joint_names = info_parser_->sdk_ordered_joint_base_names();
     for (const auto& joint_name : joint_names) {
-
-      // node_->declare_parameter(encode_finger_parameter_name(P_GAIN_GROUP_NAME, joint_name), p_gain_table_.at(joint_name),
-      //                          p_gain_descriptor);
-      // node_->declare_parameter(encode_finger_parameter_name(D_GAIN_GROUP_NAME, joint_name), d_gain_table_.at(joint_name),
-      //                          d_gain_descriptor);
-
       node_->declare_parameter(encode_finger_parameter_name(TORQUE_LIMIT_GROUP_NAME, joint_name), torque_limit_table_.at(joint_name),
                                torque_limit_descriptor);
       node_->declare_parameter(encode_finger_parameter_name(INITIAL_POSITION_GROUP_NAME, joint_name),
@@ -495,10 +429,6 @@ public:
    */
   inline void bind_device(const std::shared_ptr<plexus_sdk::HandPlexus>& device) { device_ = device; }
 
-  // /// @brief Gets the current P gains, serialized into a vector in SDK order.
-  // inline std::vector<double> k_p_table() const { return serialize_table(p_gain_table_); }
-  // /// @brief Gets the current D gains, serialized into a vector in SDK order.
-  // inline std::vector<double> k_d_table() const { return serialize_table(d_gain_table_); }
   /// @brief Gets the current torque limits, serialized into a vector in SDK order.
   inline std::vector<double> torque_limit_table() const { return serialize_table(torque_limit_table_); }
   /// @brief Gets the current initial positions, serialized into a vector in SDK order.
@@ -588,8 +518,6 @@ public:
     plexus_sdk::HandPlexus::Options options;
     options.io_interface_descriptor = info_parser->io_interface_descriptor();
     options.hand_id = info_parser->hand_id();
-    // options.k_p_table = param_handler_->k_p_table();
-    // options.k_d_table = param_handler_->k_d_table();
     options.torque_limit_table = param_handler_->torque_limit_table();
 
     try {
@@ -844,7 +772,8 @@ std::vector<hardware_interface::CommandInterface> AllegroHandPlexusHardwareInter
  * @brief Activates the hardware interface.
  *
  * This method is called by the controller manager when the hardware should become active.
- * It initializes the state and command arrays, creates and starts the `DeviceNode`'s executor thread,
+ * It initializes the state and command arrays, sets initial command values based on parameters,
+ * creates and starts the `DeviceNode`'s executor thread,
  * and checks if the hardware is ready for communication.
  * @param previous_state The previous lifecycle state (unused).
  * @return `CallbackReturn::SUCCESS` on success, `CallbackReturn::ERROR` otherwise.
@@ -949,9 +878,10 @@ static std::vector<std::string> extract_interface_names(const std::set<std::stri
  * @brief Prepares for a command mode switch.
  *
  * This method is called by the controller manager before `perform_command_mode_switch`.
- * It validates that the requested switch is valid (e.g., all joints are claimed, and they all use the same command mode).
- * This hardware requires all joints to be claimed simultaneously with the same command interface.
- * @param start_interfaces A list of fully-qualified interface names to be started.
+ * It validates that the requested switch is valid. This hardware supports two command modes:
+ * 1. Position-only: All 16 joints are claimed with the "position" command interface.
+ * 2. Position-and-Effort: All 16 joints are claimed with both "position" and "effort" command interfaces.
+ * Effort-only mode is not supported.
  * @param stop_interfaces A list of interfaces to be stopped.
  * @return `return_type::OK` if the switch is valid, `return_type::ERROR` otherwise.
  */
@@ -1022,9 +952,9 @@ AllegroHandPlexusHardwareInterface::prepare_command_mode_switch(const std::vecto
  * @brief Performs the command mode switch.
  *
  * This method is called by the controller manager to actually switch the control mode.
- * It determines the new mode (e.g., "position" or "effort") and calls the SDK's `set_control_mode` method accordingly.
- * It validates that all joints are being switched to a single, consistent command mode.
- * @param start_interfaces A list of fully-qualified interface names to be started.
+ * It determines the new mode (position-only or position-effort) based on the interfaces being started
+ * and calls the SDK's `set_control_mode` method accordingly. It validates that all joints are being
+ * switched to a single, consistent command mode.
  * @param stop_interfaces A list of fully-qualified interface names to be stopped.
  * @return `return_type::OK` on success, `return_type::ERROR` otherwise.
  */
@@ -1044,23 +974,22 @@ AllegroHandPlexusHardwareInterface::perform_command_mode_switch(const std::vecto
 
   // This hardware interface requires that a controller claims all joints.
   // Partial mode switching is not supported.
-  if (!start_interface_names.empty() && start_interface_names.size() != JOINT_NUM) {
-    RCLCPP_FATAL(GetLogger(), "Cannot switch mode for a subset of joints. Expected %d interfaces to start, but got %zu.", JOINT_NUM,
-                 start_interface_names.size());
-    return hardware_interface::return_type::ERROR;
+  if (!start_interface_names.empty()) {
+    bool is_position_only = start_interface_names.size() == JOINT_NUM && start_interface_name_set.size() == 1 && *start_interface_name_set.begin() == "position";
+    bool is_position_effort = start_interface_names.size() == JOINT_NUM * 2 && start_interface_name_set.count("position") && start_interface_name_set.count("effort");
+
+    if (!is_position_only && !is_position_effort) {
+      RCLCPP_FATAL(GetLogger(), "Cannot switch mode. Invalid combination of start interfaces.");
+      return hardware_interface::return_type::ERROR;
+    }
   }
 
-  // All joints must be switched to the same command interface type (e.g., all 'position' or all 'effort').
-  // Switching to multiple command modes simultaneously is not supported.
-  if (std::set<std::string>(start_interface_names.begin(), start_interface_names.end()).size() > 1) {
-    RCLCPP_FATAL(GetLogger(), "All joints must use the same command interface. Found multiple interface types in start request.");
-    return hardware_interface::return_type::ERROR;
-  }
-
-  if (!stop_interface_names.empty() && stop_interface_names.size() != JOINT_NUM) {
-    RCLCPP_FATAL(GetLogger(), "Cannot switch mode for a subset of joints. Expected %d interfaces to stop, but got %zu.", JOINT_NUM,
-                 stop_interface_names.size());
-    return hardware_interface::return_type::ERROR;
+  if (!stop_interface_names.empty()) {
+    bool is_stopping_all = stop_interface_names.size() == JOINT_NUM || stop_interface_names.size() == JOINT_NUM * 2;
+    if (!is_stopping_all) {
+      RCLCPP_FATAL(GetLogger(), "Cannot switch mode for a subset of joints. Expected all interfaces to be stopped.");
+      return hardware_interface::return_type::ERROR;
+    }
   }
 
   // All joints must be switched to the same command interface type (e.g., all 'position' or all 'effort').
@@ -1081,24 +1010,6 @@ AllegroHandPlexusHardwareInterface::perform_command_mode_switch(const std::vecto
   if (stop_interface_name_set.size() > 0) {
     stop_interface = *stop_interface_name_set.begin();
   }
-
-  // SPDLOG_TRACE("AllegroHandPlexusHardwareInterface::perform_command_mode_switch. stop_interface [{}], start_interface [{}]", stop_interface,
-  //              start_interface);
-
-#if 0
-  // 항상 Current Based Position Control 모드를 사용한다. 
-  if (!start_interface.empty()) {
-    if (start_interface == std::string("position")) {
-      GetDevice()->set_control_mode(true);
-    } else if (start_interface == std::string("effort")) {
-      GetDevice()->set_control_mode(false);
-    } else {
-      RCLCPP_FATAL(GetLogger(), "Invalid interface name. %s", start_interface.c_str());
-      return hardware_interface::return_type::ERROR;
-    }
-    RCLCPP_INFO(GetLogger(), "Set control mode[%s]", start_interface.c_str());
-  }
-#endif 
 
   return hardware_interface::return_type::OK;
 }

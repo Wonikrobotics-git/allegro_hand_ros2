@@ -93,10 +93,7 @@ public:
   };
 
   ///// PARAMETER GROUPS ///////
-  // /// @brief The name for the p_gain parameter group.
-  // static const char* P_GAIN_GROUP;
-  // /// @brief The name for the d_gain parameter group.
-  // static const char* D_GAIN_GROUP;
+
   /// @brief The name for the torque_limit parameter group.
   static const char* TORQUE_LIMIT_GROUP;
 
