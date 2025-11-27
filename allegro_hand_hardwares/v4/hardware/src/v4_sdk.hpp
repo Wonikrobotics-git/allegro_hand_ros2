@@ -60,6 +60,7 @@
 
 #include "v4_spec.hpp"
 
+using allegro_hand_utility::SignalRateMonitor;
 using allegro_hand_utility::SpinLock;
 
 namespace v4_sdk {
@@ -264,6 +265,8 @@ private:
   /// @brief Counter for received RTR messages, indexed by message ID.
   std::unordered_map<int, int> rtr_message_counter_;
 
+  SignalRateMonitor signal_rate_monitor_;
+
   /** @brief Initializes the communication interface and the hand. */
   bool _initialize();
   /** @brief Parses an incoming CAN message and dispatches it to the correct handler. */
@@ -347,6 +350,8 @@ public:
   void read_imu_states(double* acc, double* gyr);
   /** @brief Writes commands from ros2_control to the SDK. */
   void write_commands(const double* position_command, const double* velocity_command, const double* torque_command);
+
+  inline const SignalRateMonitor& get_rate_monitor() const { return signal_rate_monitor_; }
 };
 
 } // namespace v4_sdk

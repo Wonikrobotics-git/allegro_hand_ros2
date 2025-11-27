@@ -254,6 +254,7 @@ bool HandV4::_initialize() {
  * @return True on success, false on failure.
  */
 bool HandV4::_set_system_on_off(bool on_off) {
+  signal_rate_monitor_.tick("system_on_off");
   auto msg_id = on_off ? ID_CMD_SYSTEM_ON : ID_CMD_SYSTEM_OFF;
   auto res = comm_io_->send_message(msg_id, nullptr, 0);
   std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -266,7 +267,10 @@ bool HandV4::_set_system_on_off(bool on_off) {
  * This is sent as an RTR (Remote Transmission Request) frame.
  * @return True on success, false on failure.
  */
-bool HandV4::_req_hand_info() { return comm_io_->send_message(ID_RTR_HAND_INFO) > 0; }
+bool HandV4::_req_hand_info() { 
+  signal_rate_monitor_.tick("req_hand_info");
+  return comm_io_->send_message(ID_RTR_HAND_INFO) > 0; 
+}
 
 /**
  * @brief Configures the data sampling periods on the hand.
@@ -277,6 +281,7 @@ bool HandV4::_req_hand_info() { return comm_io_->send_message(ID_RTR_HAND_INFO) 
  * @return True if the command was sent successfully, false otherwise.
  */
 bool HandV4::_set_sampling_period() {
+  signal_rate_monitor_.tick("set_sampling_period");
   data_period_t data;
   data.position = POSITION_SAMPLING_PERIOD * 1000;
   data.temperature = TEMPERATURE_SAMPLING_PERIOD * 1000;
@@ -311,6 +316,7 @@ bool HandV4::_set_torque(unsigned int finger_idx) {
   for (int j_idx = 0; j_idx < JONIT_PER_FINGER; j_idx++) {
     data.encode(j_idx, command_.joints[finger_idx][j_idx].torque);
   }
+  signal_rate_monitor_.tick(fmt::format("snd_torque{}", finger_idx));
   return comm_io_->send_message(uint32_t(ID_CMD_SET_TORQUE + finger_idx), (uint8_t*)&data, sizeof(data_torque_t)) > 0;
 }
 
@@ -329,6 +335,7 @@ void HandV4::_rcv_position(unsigned int finger_idx, const uint8_t* data) {
     auto position = reinterpret_cast<const data_position_t*>(data)->decode(j_idx);
     state_.joints[finger_idx][j_idx].set_position(position);
   }
+  signal_rate_monitor_.tick(fmt::format("rcv_position{}", finger_idx));
 }
 
 /**
@@ -346,6 +353,7 @@ void HandV4::_rcv_temperature(unsigned int finger_idx, const uint8_t* data) {
     auto temperature = reinterpret_cast<const data_temperature_t*>(data)->decode(j_idx);
     state_.joints[finger_idx][j_idx].set_temperature(temperature);
   }
+  signal_rate_monitor_.tick("rcv_temperature");
 }
 
 /**
@@ -371,7 +379,10 @@ void HandV4::_rcv_imu(const uint8_t* data) {
  * and informational purposes, storing it in `state_.main_board_info`.
  * @param data A pointer to the raw CAN data payload.
  */
-void HandV4::_rcv_info(const uint8_t* data) { state_.main_board_info = *((data_info_t*)data); }
+void HandV4::_rcv_info(const uint8_t* data) { 
+  state_.main_board_info = *((data_info_t*)data); 
+  signal_rate_monitor_.tick("rcv_info");
+}
 
 /**
  * @brief Handles a received serial number frame.
@@ -383,6 +394,7 @@ void HandV4::_rcv_info(const uint8_t* data) { state_.main_board_info = *((data_i
 void HandV4::_rcv_serial(const uint8_t* data) {
   data_serial_t* serial_data = (data_serial_t*)data;
   state_.serial_number = serial_data->to_string();
+  signal_rate_monitor_.tick("rcv_serial");
 }
 
 /*

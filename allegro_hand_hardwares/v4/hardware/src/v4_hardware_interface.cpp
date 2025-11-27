@@ -109,8 +109,7 @@ class Diagnostics {
     double pos[v4_sdk::JONIT_MAX], vel[v4_sdk::JONIT_MAX], eff[v4_sdk::JONIT_MAX], temp[v4_sdk::JONIT_MAX];
     device_->read_states(pos, vel, eff, temp);
 
-    // Get joint names for readable output
-    // const auto& joint_names = info_parser_->sdk_ordered_joint_base_names();
+    auto rate_monitoring_results = device_->get_rate_monitor().get_info(); 
 
     // Check for faults
     // The order of checks determines the priority of the summary message.
@@ -136,6 +135,12 @@ class Diagnostics {
     stat.addf("Middle Finger Temp (C)", "%.1f, %.1f, %.1f, %.1f", temp[4], temp[5], temp[6], temp[7]);
     stat.addf("Ring Finger Temp (C)", "%.1f, %.1f, %.1f, %.1f", temp[8], temp[9], temp[10], temp[11]);
     stat.addf("Thumb Temp (C)", "%.1f, %.1f, %.1f, %.1f", temp[12], temp[13], temp[14], temp[15]);
+
+    // Add communication rate monitoring results
+    for (const auto& pair : rate_monitoring_results) {
+      stat.addf("Signal: " + pair.first, "Freq: %.2f Hz, Jitter: %.3f ms, Cnt : %d", pair.second.frequency, pair.second.jitter * 1000.0,
+                pair.second.count);
+    }
   }
 
 public:

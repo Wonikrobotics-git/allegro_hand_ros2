@@ -306,7 +306,7 @@ bool HandPlexus::_initialize() {
  */
 bool HandPlexus::_set_system_on_off(bool on_off) {
   uint8_t data = on_off;
-  signal_rate_monitor_.tick(fmt::format("system_on_off"));
+  signal_rate_monitor_.tick("system_on_off");
   auto res = comm_io_->send_message(ID_CMD_SYSTEM_ON_OFF, &data, sizeof(data));
   std::this_thread::sleep_for(std::chrono::milliseconds(100));
   return res > 0;
@@ -320,7 +320,7 @@ bool HandPlexus::_set_system_on_off(bool on_off) {
 bool HandPlexus::_set_operation_mode(OperationMode mode) {
   data_config_t data;
   data.encode(mode);
-  signal_rate_monitor_.tick(fmt::format("set_operation_mode"));
+  signal_rate_monitor_.tick("set_operation_mode");
   return comm_io_->send_message(ID_CMD_CONFIG, (uint8_t*)&data, sizeof(data)) > 0;
 }
 
@@ -331,7 +331,7 @@ bool HandPlexus::_set_operation_mode(OperationMode mode) {
  * @return True on success, false on failure.
  */
 bool HandPlexus::_req_hand_info() {
-  signal_rate_monitor_.tick(fmt::format("req_hand_info"));
+  signal_rate_monitor_.tick("req_hand_info");
   return comm_io_->send_message(ID_RTR_HAND_INFO) > 0;
 }
 
@@ -350,7 +350,7 @@ bool HandPlexus::_set_sampling_period() {
   data.torque = TORQUE_SAMPLING_PERIOD * 1000;
   data.imu = IMU_SAMPLING_PERIOD * 1000;
   data.temperature = 255;
-  signal_rate_monitor_.tick(fmt::format("set_sampling_period"));
+  signal_rate_monitor_.tick("set_sampling_period");
   return comm_io_->send_message(ID_CMD_SET_PERIOD, (uint8_t*)&data, sizeof(data)) > 0;
 }
 
