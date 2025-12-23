@@ -45,6 +45,7 @@ The `allegro_hand_v4_hardware::AllegroHandV4HardwareInterface` class can be conf
         <param name="device_prefix">ah_</param>
         <param name="p_joint00">1000.0</param>
         <param name="d_joint00">50.0</param>
+        <param name="torque_joint00">0.35</param>
     </hardware>
     ...
 </ros2_control>
