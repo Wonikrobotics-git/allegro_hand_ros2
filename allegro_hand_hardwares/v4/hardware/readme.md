@@ -58,6 +58,8 @@ The `allegro_hand_v4_hardware::AllegroHandV4HardwareInterface` class can be conf
     * The P (Proportional) gain value for each joint. This is set by the `p_gains` value in the `pd_gains.yaml` file specified in the URDF.
 * **`d_joint.*`** (`double`)    
     * The D (Derivative) gain value for each joint. This is set by the `d_gains` value in the `pd_gains.yaml` file specified in the URDF.
+* **`torque_joint.*`** (`double`)  
+    * The torque limit as a normalised value between 0 and 1 for each joint. This is set by the `torque_limits` value in the `torque_limits.yaml` file specified in the URDF.
 
 ---
 ## 4. Dependencies
