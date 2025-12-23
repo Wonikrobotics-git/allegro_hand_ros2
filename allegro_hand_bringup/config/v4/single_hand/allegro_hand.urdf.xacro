@@ -9,6 +9,7 @@
 
     <xacro:arg name="initial_positions_file" default="$(find allegro_hand_v4_description)/config/initial_positions.yaml" />
     <xacro:arg name="pd_gains_file" default="$(find allegro_hand_v4_description)/config/pd_gains.yaml" /> 
+    <xacro:arg name="torque_limits_file" default="$(find allegro_hand_v4_description)/config/torque_limits.yaml" /> 
     <xacro:arg name="ah_prefix" default="ah_" />
 
     <xacro:property name="hand_arg" value="$(arg hand)"/>
@@ -24,5 +25,5 @@
     </xacro:if>
 
     <xacro:include filename="$(find allegro_hand_bringup)/config/v4/single_hand/allegro_hand.ros2_control.xacro" />
-    <xacro:allegro_hand_ros2_control name="AllegroHandV4" initial_positions_file="$(arg initial_positions_file)" pd_gains_file="$(arg pd_gains_file)" io_interface_descriptor="can:can0" hand_id="$(arg hand_id)" prefix="$(arg ah_prefix)" ros2_control_hardware_type="$(arg ros2_control_hardware_type)"/> 
+    <xacro:allegro_hand_ros2_control name="AllegroHandV4" initial_positions_file="$(arg initial_positions_file)" pd_gains_file="$(arg pd_gains_file)" torque_limits_file="$(arg torque_limits_file)" io_interface_descriptor="can:can0" hand_id="$(arg hand_id)" prefix="$(arg ah_prefix)" ros2_control_hardware_type="$(arg ros2_control_hardware_type)"/> 
 </robot>
