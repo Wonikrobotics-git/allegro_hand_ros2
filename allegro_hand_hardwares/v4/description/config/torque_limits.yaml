@@ -1,0 +1,18 @@
+# Default joint torque limits
+torque_limits:
+  joint00: 0.438
+  joint01: 0.338
+  joint02: 0.225
+  joint03: 0.225
+  joint10: 0.312
+  joint11: 0.562
+  joint12: 0.375
+  joint13: 0.237
+  joint20: 0.312
+  joint21: 0.562
+  joint22: 0.375
+  joint23: 0.237
+  joint30: 0.312
+  joint31: 0.562
+  joint32: 0.375
+  joint33: 0.237

@@ -125,6 +125,7 @@ private:
   void _load_initial_pd_gains(const hardware_interface::HardwareInfo& sysinfo);
   void _load_initial_positions(const hardware_interface::HardwareInfo& sysinfo);
   void _load_joint_position_limits(const hardware_interface::HardwareInfo& sysinfo);
+  void _load_torque_limits(const hardware_interface::HardwareInfo& sysinfo);
   void _dump_sysinfo(const hardware_interface::HardwareInfo& sysinfo);
 
 public:

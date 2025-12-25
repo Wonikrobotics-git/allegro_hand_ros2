@@ -172,6 +172,7 @@ HardwareInfoParser::HardwareInfoParser(const Parameters& parameters, const hardw
   _load_initial_pd_gains(sysinfo);
   _load_initial_positions(sysinfo);
   _load_joint_position_limits(sysinfo);
+  _load_torque_limits(sysinfo);
 }
 
 void HardwareInfoParser::_load_initial_pd_gains(const hardware_interface::HardwareInfo& sysinfo) {
@@ -251,6 +252,17 @@ void HardwareInfoParser::_load_joint_position_limits(const hardware_interface::H
 
     if (joint.parameters.find("upper_limit") != joint.parameters.end()) {
       joint_position_limit_max_table_[if_idx] = std::stod(joint.parameters.at("upper_limit"));
+    }
+  }
+}
+
+void HardwareInfoParser::_load_torque_limits(const hardware_interface::HardwareInfo& sysinfo) {
+  for (size_t i = 0; i < sdk_ordered_joint_base_names_.size(); i++) {
+    // Load torque limits
+    std::string torque_limit_key = "torque_" + sdk_ordered_joint_base_names_.at(i);
+    auto torque_it = sysinfo.hardware_parameters.find(torque_limit_key);
+    if (torque_it != sysinfo.hardware_parameters.end()) {
+      torque_limit_table_[i] = std::atof(torque_it->second.c_str());
     }
   }
 }
