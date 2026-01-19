@@ -24,7 +24,7 @@ if(BUILD_TESTING)
 endif()
 
 install(DIRECTORY 
-  launch config rviz 
+  launch config visualize 
   DESTINATION share/${PROJECT_NAME})
 
 install(PROGRAMS

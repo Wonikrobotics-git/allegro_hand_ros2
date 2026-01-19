@@ -37,6 +37,11 @@
     source ~/ros2_ws/install/setup.bash
     ```
 
+## Gazebo Harmonic Installation
+
+see [Gazebo Plugin](../allegro_hand_hardwares/gazebo/plugin/readme.md)
+
+
 ## Quick Start Guide
 
 This guide walks through launching the Allegro Hand driver and testing its various control modes.
@@ -62,7 +67,6 @@ sudo ip link set can0 up
 
 Launch the main bringup file. This will start the `ros2_control` node, load the controllers, and open RViz. By default, the `allegro_hand_position_controller` (`ForwardCommandController`) is active.
 
-
 #### Single Hand 
 
 ```bash
@@ -77,8 +81,6 @@ ros2 launch allegro_hand_bringup allegro_hand.launch.py
 
 * ros2_control_hardware_type : 
     - `mock_components` : 
-    - `gazebo` : 
-    - `isaac` :  
     - `physical_device` : 
 
 
@@ -90,18 +92,39 @@ ros2 launch allegro_hand_bringup allegro_hand.launch.py ros2_control_hardware_ty
 ros2 launch allegro_hand_bringup allegro_hand_plexus.launch.py hand:=right
 ```
 
+#### Single Hand (Gazebo)
+
+To simulate the Allegro Hand in Gazebo Harmonic:
+
+```bash
+ros2 launch allegro_hand_bringup allegro_hand.gazebo.launch.py
+```
+
+##### Options
+
+* `hand` :
+    - `left` : left hand
+    - `right` : right hand (default)
+
+
 #### Dual Hand 
 
 ##### Options 
 
 * ros2_control_hardware_type : 
     - `mock_components` : 
-    - `gazebo` : 
-    - `isaac` :  
     - `physical_device` : 
 
 ```bash
 ros2 launch allegro_hand_bringup allegro_hand_duo.launch.py
+```
+
+#### Dual Hand (Gazebo)
+
+To simulate dual Allegro Hands in Gazebo Harmonic:
+
+```bash
+ros2 launch allegro_hand_bringup allegro_hand.gazebo.launch.py configuration:=dual_hand
 ```
 
 #### State Topics 
@@ -283,5 +306,3 @@ ros2 control switch_controllers --strict \
 ## Hardware Interface Detail and Tuning Guide
 
 This document provides detailed information on the `allegro_hand_v4_hardware` package, which serves as the `ros2_control` hardware interface for the Allegro Hand V4. It covers key features, parameter configuration, and a comprehensive guide on how to check and dynamically tune PD control gains and other parameters in real-time using ROS 2 tools. ([link](../allegro_hand_hardwares/v4/hardware/readme.md))
-
-

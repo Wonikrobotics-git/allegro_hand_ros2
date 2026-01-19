@@ -109,7 +109,7 @@ class Diagnostics {
     double pos[v4_sdk::JONIT_MAX], vel[v4_sdk::JONIT_MAX], eff[v4_sdk::JONIT_MAX], temp[v4_sdk::JONIT_MAX];
     device_->read_states(pos, vel, eff, temp);
 
-    auto rate_monitoring_results = device_->get_rate_monitor().get_info(); 
+    auto rate_monitoring_results = device_->get_rate_monitor().get_info();
 
     // Check for faults
     // The order of checks determines the priority of the summary message.

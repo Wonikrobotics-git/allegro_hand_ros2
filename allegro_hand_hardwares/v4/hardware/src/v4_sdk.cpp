@@ -267,9 +267,9 @@ bool HandV4::_set_system_on_off(bool on_off) {
  * This is sent as an RTR (Remote Transmission Request) frame.
  * @return True on success, false on failure.
  */
-bool HandV4::_req_hand_info() { 
+bool HandV4::_req_hand_info() {
   signal_rate_monitor_.tick("req_hand_info");
-  return comm_io_->send_message(ID_RTR_HAND_INFO) > 0; 
+  return comm_io_->send_message(ID_RTR_HAND_INFO) > 0;
 }
 
 /**
@@ -379,8 +379,8 @@ void HandV4::_rcv_imu(const uint8_t* data) {
  * and informational purposes, storing it in `state_.main_board_info`.
  * @param data A pointer to the raw CAN data payload.
  */
-void HandV4::_rcv_info(const uint8_t* data) { 
-  state_.main_board_info = *((data_info_t*)data); 
+void HandV4::_rcv_info(const uint8_t* data) {
+  state_.main_board_info = *((data_info_t*)data);
   signal_rate_monitor_.tick("rcv_info");
 }
 

@@ -24,12 +24,12 @@ class MotionGeneratorV4:
     def __init__(self):
         # Parameters for the sine wave oscillation.
         self.frequency = 5.0  # rad/s, controls speed of the wave
-        # Phase offsets create the delayed motion between fingers, forming the wave.
+        # Phase offsets create the delayed motion between fingers, forming the wave. 
         self.phase_offsets = {
-            "THUMB": 3 * np.pi / 2,
-            "INDEX": 0.0,
+            "THUMB": 0.0,
             "MIDDLE": np.pi / 2,
-            "RING": np.pi,
+            "INDEX": np.pi,
+            "RING": 3 * np.pi / 2,
         }
 
         # Define the motion range (open and closed poses) for the thumb.
@@ -41,7 +41,7 @@ class MotionGeneratorV4:
 
         # Define the motion range for the other three fingers.
         finger_open_pose = np.array([0.0, 0.0, 0.0, 0.0])
-        finger_closed_pose = np.array([0.0, 1.45, 1.5, 0.0])
+        finger_closed_pose = np.array([0.15, 1.45, 1.5, 0.15])
         self.finger_amplitude = (finger_closed_pose - finger_open_pose) / 2.0
         self.finger_offset = (finger_closed_pose + finger_open_pose) / 2.0
 

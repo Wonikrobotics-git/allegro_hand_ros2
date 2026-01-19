@@ -1,0 +1,19 @@
+<library path="ah_gazebo_plugin">
+  <class
+    name="allegro_hand_gazebo_plugin/AllegroHand"
+    type="allegro_hand_gazebo_plugin::AllegroHand"
+    base_class_type="gz_ros2_control::GazeboSimSystemInterface">
+    <description>
+      ros2_control hardware component to be loaded by the gazebo plugin.
+    </description>
+  </class>
+  <!-- <class
+    name="ign_ros2_control/IgnitionSystem"
+    type="ign_ros2_control::IgnitionSystem"
+    base_class_type="gz_ros2_control::GazeboSimSystemInterface">
+    <description>
+      ros2_control hardware component to be loaded by the gazebo plugin.
+      For backward compatibility with old ign* plugin names.
+    </description>
+  </class> -->
+</library>
