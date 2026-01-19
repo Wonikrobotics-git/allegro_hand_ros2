@@ -34,6 +34,11 @@
     source ~/ros2_ws/install/setup.bash
     ```
 
+## Gazebo Harmonic Installation
+
+see [Gazebo Plugin](../allegro_hand_hardwares/gazebo/plugin/readme.md)
+
+
 ## Quick Start Guide
 
 This guide walks through launching the Allegro Hand Plexus driver and testing its control modes.
@@ -82,6 +87,27 @@ ros2 launch allegro_hand_bringup allegro_hand_plexus.launch.py ros2_control_hard
 ros2 launch allegro_hand_bringup allegro_hand_plexus.launch.py hand:=left
 ```
 
+#### Single Hand (Gazebo)
+
+To simulate the Allegro Hand Plexus in Gazebo Harmonic:
+
+```bash
+ros2 launch allegro_hand_bringup allegro_hand.gazebo.launch.py device:=plexus
+```
+
+##### Options
+
+* `hand`:
+    - `left`: left hand
+    - `right`: right hand (default)
+
+#### Dual Hand (Gazebo)
+
+To simulate dual Allegro Hand Plexus in Gazebo Harmonic:
+
+```bash
+ros2 launch allegro_hand_bringup allegro_hand.gazebo.launch.py device:=plexus configuration:=dual_hand
+```
 
 #### State Topics 
 

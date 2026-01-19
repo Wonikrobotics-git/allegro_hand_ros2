@@ -50,8 +50,8 @@
 #include <hardware_interface/types/hardware_interface_return_values.hpp>
 #include <hardware_interface/types/hardware_interface_type_values.hpp>
 
-#include <allegro_hand_v4_hardware/visibility_control.h>
 #include <allegro_hand_utility/ros_utility.hpp>
+#include <allegro_hand_v4_hardware/visibility_control.h>
 using allegro_hand_utility::HardwareInfoParser;
 
 namespace allegro_hand_v4_hardware {
@@ -82,11 +82,11 @@ public:
   hardware_interface::return_type prepare_command_mode_switch(const std::vector<std::string>& start_interfaces,
                                                               const std::vector<std::string>& stop_interfaces) override;
 
-  ALLEGRO_HAND_V4_HW_INTERFACE_PUBLIC                                                            
+  ALLEGRO_HAND_V4_HW_INTERFACE_PUBLIC
   hardware_interface::return_type perform_command_mode_switch(const std::vector<std::string>& start_interfaces,
                                                               const std::vector<std::string>& stop_interfaces) override;
-  
-  ALLEGRO_HAND_V4_HW_INTERFACE_PUBLIC                                                            
+
+  ALLEGRO_HAND_V4_HW_INTERFACE_PUBLIC
   hardware_interface::return_type read(const rclcpp::Time& time, const rclcpp::Duration& period) override;
 
   ALLEGRO_HAND_V4_HW_INTERFACE_PUBLIC

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- This URDF is for the LEFT Meta Hand, which mounts the thumb at a 90° angle. -->
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="allegro_plexus_left_90">
-  <xacro:macro name="allegro_hand_left" params="prefix:=''">
+<!-- This URDF is for the RIGHT Meta Hand, which mounts the thumb at a 90° angle. -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="allegro_plexus_right_90">
+  <xacro:macro name="allegro_hand_right" params="prefix:=''">
     <!-- Root base_link (virtual link for reference frame) -->
     <link name="${prefix}base_link" />
     <!-- Fixed joint connecting base_link to palm_link -->
@@ -21,16 +21,16 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Palm-left.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Palm.STL" />
         </geometry>
         <material name="">
-          <color rgba="0.2 0.2 0.2 1" />
+          <color rgba="0.50 0.50 0.50 1" />
         </material>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Palm-left.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Palm.STL" />
         </geometry>
       </collision>
     </link>
@@ -46,21 +46,21 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Thumb-0-left.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Thumb-0.STL" />
         </geometry>
         <material name="">
-          <color rgba="0.2 0.2 0.2 1" />
+          <color rgba="0.50 0.50 0.50 1" />
         </material>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Thumb-0-left.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Thumb-0.STL" />
         </geometry>
       </collision>
     </link>
     <joint name="${prefix}joint0x0" type="fixed">
-      <origin xyz="-0.0065 -0.025 -0.071" rpy="0 0 0" />
+      <origin xyz="-0.0065 0.025 -0.071" rpy="0 0 0" />
       <parent link="${prefix}palm_link" />
       <child link="${prefix}link_00" />
       <axis xyz="0 0 0" />
@@ -75,16 +75,16 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Thumb-1-left.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Thumb-1.STL" />
         </geometry>
         <material name="">
-          <color rgba="0.2 0.2 0.2 1" />
+          <color rgba="0.50 0.50 0.50 1" />
         </material>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Thumb-1-left.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Thumb-1.STL" />
         </geometry>
       </collision>
     </link>
@@ -92,9 +92,10 @@
       <origin xyz="0 0 0.0057" rpy="0 0 0" />
       <parent link="${prefix}link_00" />
       <child link="${prefix}link_01" />
-      <axis xyz="0 0 1" />
+      <axis xyz="0 0 -1" />
       <!-- -100 deg / 0 deg -->
-      <limit lower="0" upper="1.7453293" effort="15" velocity="7" />
+      <limit lower="0" upper="1.7453293" effort="0.38" velocity="8.70" />
+      <dynamics damping="0.1" friction="0.01" />
     </joint>
     <link name="${prefix}link_02">
       <inertial>
@@ -106,26 +107,27 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Thumb-2.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Thumb-2.STL" />
         </geometry>
         <material name="">
-          <color rgba="0.2 0.2 0.2 1" />
+          <color rgba="0.50 0.50 0.50 1" />
         </material>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Thumb-2.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Thumb-2.STL" />
         </geometry>
       </collision>
     </link>
     <joint name="${prefix}joint01" type="revolute">
-      <origin xyz="-0.0015 -0.0416 -0.0075" rpy="0 0 3.141592" />
+      <origin xyz="-0.0015 0.0416 -0.0075" rpy="0 0 0" />
       <parent link="${prefix}link_01" />
       <child link="${prefix}link_02" />
-      <axis xyz="0 -1 0" />
-      <!-- -67 deg / 20 deg -->
-      <limit lower="-0.3490659" upper="1.1693706" effort="15" velocity="7" />
+      <axis xyz="0 1 0" />
+      <!-- - 20 deg/ 67 deg -->
+      <limit lower="-0.3490659" upper="1.1693706" effort="0.38" velocity="8.70" />
+      <dynamics damping="0.1" friction="0.01" />
     </joint>
     <link name="${prefix}link_03">
       <inertial>
@@ -137,16 +139,16 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Thumb-3.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Thumb-3.STL" />
         </geometry>
         <material name="">
-          <color rgba="0.2 0.2 0.2 1" />
+          <color rgba="0.50 0.50 0.50 1" />
         </material>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Thumb-3.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Thumb-3.STL" />
         </geometry>
       </collision>
     </link>
@@ -156,7 +158,8 @@
       <child link="${prefix}link_03" />
       <axis xyz="1 0 0" />
       <!-- 0 deg / +67 deg-->
-      <limit lower="0" upper="1.1693706" effort="15" velocity="7" />
+      <limit lower="0" upper="1.1693706" effort="0.38" velocity="8.70" />
+      <dynamics damping="0.1" friction="0.01" />
     </joint>
     <link name="${prefix}link_04">
       <inertial>
@@ -168,16 +171,16 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Thumb-4.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Thumb-4.STL" />
         </geometry>
         <material name="">
-          <color rgba="0.2 0.2 0.2 1" />
+          <color rgba="0.50 0.50 0.50 1" />
         </material>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Thumb-4.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Thumb-4.STL" />
         </geometry>
       </collision>
     </link>
@@ -187,7 +190,8 @@
       <child link="${prefix}link_04" />
       <axis xyz="1 0 0" />
       <!-- 0 deg / +90 deg-->
-      <limit lower="0" upper="1.5707963" effort="15" velocity="7" />
+      <limit lower="0" upper="1.5707963" effort="0.38" velocity="8.70" />
+      <dynamics damping="0.1" friction="0.01" />
     </joint>
     <link name="${prefix}link_05" />
     <joint name="${prefix}joint0x1" type="fixed">
@@ -199,52 +203,53 @@
 
     <link name="${prefix}link_10">
       <inertial>
-        <origin xyz="-4.41353594591229E-05 -0.00963309232581332 -0.00795499254600742" rpy="0 0 0" />
+        <origin xyz="0.00213309234037883 -0.0079549925576723 4.41353473389847E-05" rpy="0 0 0" />
         <mass value="0.02" />
-        <inertia ixx="2.06293184065839E-06" ixy="-8.40472981782298E-09" ixz="-8.99766962497421E-09"
-          iyy="8.05738737390995E-07" iyz="-8.20587839080824E-08" izz="2.50012922950454E-06" />
+        <inertia ixx="8.05738736659494E-07" ixy="8.2058782283466E-08" ixz="-8.40472921756292E-09"
+          iyy="2.50012922748597E-06" iyz="8.9976712814495E-09" izz="2.06293183621632E-06" />
       </inertial>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-0.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-0.STL" />
         </geometry>
         <material name="">
-          <color rgba="0.2 0.2 0.2 1" />
+          <color rgba="0.50 0.50 0.50 1" />
         </material>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-0.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-0.STL" />
         </geometry>
       </collision>
     </link>
     <joint name="${prefix}joint1x0" type="fixed">
-      <origin xyz="0 -0.041237 -0.011569" rpy="0.0872665 0 0" />
+      <origin xyz="0 0.041237 -0.011569" rpy="-0.0872665 0 0" />
       <parent link="${prefix}palm_link" />
       <child link="${prefix}link_10" />
+      <axis xyz="0 0 0" />
     </joint>
     <link name="${prefix}link_11">
       <inertial>
-        <origin xyz="-0.0101722660107688 -0.00969273259874198 -0.00119006199281819" rpy="0 0 0" />
+        <origin xyz="-0.0101722660107688 -0.00969273259874199 -0.00119006199281816" rpy="0 0 0" />
         <mass value="0.02" />
-        <inertia ixx="1.30062738946102E-06" ixy="-7.47871272185257E-09" ixz="3.41340540723858E-09"
+        <inertia ixx="1.30062738946102E-06" ixy="-7.4787127218524E-09" ixz="3.41340540723836E-09"
           iyy="1.30956101769866E-06" iyz="4.64617847293456E-08" izz="1.26530539132705E-06" />
       </inertial>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-1.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-1.STL" />
         </geometry>
         <material name="">
-          <color rgba="0.2 0.2 0.2 1" />
+          <color rgba="0.50 0.50 0.50 1" />
         </material>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-1.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-1.STL" />
         </geometry>
       </collision>
     </link>
@@ -252,30 +257,31 @@
       <origin xyz="0 0 0" rpy="0 0 0" />
       <parent link="${prefix}link_10" />
       <child link="${prefix}link_11" />
-      <axis xyz="1 0 0" />
+      <axis xyz="-1 0 0" />
       <!-- -30 deg / + 30 deg-->
-      <limit lower="-0.5235988" upper="0.5235988" effort="15" velocity="7" />
+      <limit lower="-0.5235988" upper="0.5235988" effort="0.38" velocity="8.70" />
+      <dynamics damping="0.1" friction="0.01" />
     </joint>
     <link name="${prefix}link_12">
       <inertial>
-        <origin xyz="1.4418236590763E-08 -0.00858909568015356 0.000948355626649147" rpy="0 0 0" />
+        <origin xyz="1.45350522798293E-08 -0.00858909560235334 0.000948355672940028" rpy="0 0 0" />
         <mass value="0.04" />
-        <inertia ixx="2.12804061194362E-06" ixy="3.17788645895422E-09" ixz="-9.33572458417814E-12"
-          iyy="9.98936759793809E-06" iyz="1.32929824691148E-08" izz="1.05163237746123E-05" />
+        <inertia ixx="2.12804061694947E-06" ixy="3.17787051269347E-09" ixz="-9.38556866273311E-12"
+          iyy="9.98936750250966E-06" iyz="1.32929821180897E-08" izz="1.05163236551884E-05" />
       </inertial>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-2.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-2.STL" />
         </geometry>
         <material name="">
-          <color rgba="0.2 0.2 0.2 1" />
+          <color rgba="0.50 0.50 0.50 1" />
         </material>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-2.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-2.STL" />
         </geometry>
       </collision>
     </link>
@@ -285,28 +291,29 @@
       <child link="${prefix}link_12" />
       <axis xyz="0 1 0" />
       <!-- 0 deg / +67 deg-->
-      <limit lower="0" upper="1.1693706" effort="15" velocity="7" />
+      <limit lower="0" upper="1.1693706" effort="0.38" velocity="8.70" />
+      <dynamics damping="0.1" friction="0.01" />
     </joint>
     <link name="${prefix}link_13">
       <inertial>
-        <origin xyz="0.00721219118933854 -0.00758330017838707 0.00274615181108999" rpy="0 0 0" />
+        <origin xyz="0.00721219099086241 -0.00441669913337903 -0.00274615184345359" rpy="0 0 0" />
         <mass value="0.03" />
-        <inertia ixx="1.41212488823125E-06" ixy="-6.54590367760427E-08" ixz="7.71922806136232E-08"
-          iyy="5.12576091395449E-06" iyz="6.10641738197412E-09" izz="4.6568865354446E-06" />
+        <inertia ixx="1.41212487584742E-06" ixy="6.54592674370762E-08" ixz="-7.71922750022857E-08"
+          iyy="5.1257610354363E-06" iyz="6.10641831731047E-09" izz="4.65688663033919E-06" />
       </inertial>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-3.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-3.STL" />
         </geometry>
         <material name="">
-          <color rgba="0.2 0.2 0.2 1" />
+          <color rgba="0.50 0.50 0.50 1" />
         </material>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-3.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-3.STL" />
         </geometry>
       </collision>
     </link>
@@ -316,28 +323,29 @@
       <child link="${prefix}link_13" />
       <axis xyz="0 1 0" />
       <!-- 0 deg / +67 deg-->
-      <limit lower="0" upper="1.1693706" effort="15" velocity="7" />
+      <limit lower="0" upper="1.1693706" effort="0.38" velocity="8.70" />
+      <dynamics damping="0.1" friction="0.01" />
     </joint>
     <link name="${prefix}link_14">
       <inertial>
-        <origin xyz="-0.02404265889907 -0.0126023827249109 -0.000166719467604045" rpy="0 0 0" />
+        <origin xyz="-0.00048328012681697 -0.0170653411612805 0.000197616367281619" rpy="0 0 0" />
         <mass value="0.02" />
-        <inertia ixx="1.89748889580941E-06" ixy="1.66774648072704E-09" ixz="-3.31489990867933E-08"
-          iyy="2.02684188082002E-06" iyz="-7.35814181141325E-10" izz="1.70865967319708E-06" />
+        <inertia ixx="1.70865948709507E-06" ixy="-3.31490114976918E-08" ixz="7.36197740895987E-10"
+          iyy="1.89748889737562E-06" iyz="-1.66774688625787E-09" izz="2.02684210848521E-06" />
       </inertial>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-4.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-4.STL" />
         </geometry>
         <material name="">
-          <color rgba="0.2 0.2 0.2 1" />
+          <color rgba="0.50 0.50 0.50 1" />
         </material>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-4.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-4.STL" />
         </geometry>
       </collision>
     </link>
@@ -347,7 +355,8 @@
       <child link="${prefix}link_14" />
       <axis xyz="0 1 0" />
       <!-- 0 deg / +67 deg-->
-      <limit lower="0" upper="1.1693706" effort="15" velocity="7" />
+      <limit lower="0" upper="1.1693706" effort="0.38" velocity="8.70" />
+      <dynamics damping="0.1" friction="0.01" />
     </joint>
     <link name="${prefix}link_15" />
     <joint name="${prefix}joint1x1" type="fixed">
@@ -355,6 +364,8 @@
       <parent link="${prefix}link_14" />
       <child link="${prefix}link_15" />
     </joint>
+
+
     <link name="${prefix}link_20">
       <inertial>
         <origin xyz="0.00213309233885834 0.00795499254599944 -4.41353549680027E-05" rpy="0 0 0" />
@@ -365,16 +376,16 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-0.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-0.STL" />
         </geometry>
         <material name="">
-          <color rgba="0.2 0.2 0.2 1" />
+          <color rgba="0.50 0.50 0.50 1" />
         </material>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-0.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-0.STL" />
         </geometry>
       </collision>
     </link>
@@ -394,16 +405,16 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-1.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-1.STL" />
         </geometry>
         <material name="">
-          <color rgba="0.2 0.2 0.2 1" />
+          <color rgba="0.50 0.50 0.50 1" />
         </material>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-1.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-1.STL" />
         </geometry>
       </collision>
     </link>
@@ -411,9 +422,10 @@
       <origin xyz="0 0 0" rpy="0 0 0" />
       <parent link="${prefix}link_20" />
       <child link="${prefix}link_21" />
-      <axis xyz="1 0 0" />
+      <axis xyz="-1 0 0" />
       <!-- -30 deg / + 30 deg-->
-      <limit lower="-0.5235988" upper="0.5235988" effort="15" velocity="7" />
+      <limit lower="-0.5235988" upper="0.5235988" effort="0.38" velocity="8.70" />
+      <dynamics damping="0.1" friction="0.01" />
     </joint>
     <link name="${prefix}link_22">
       <inertial>
@@ -425,16 +437,16 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-2.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-2.STL" />
         </geometry>
         <material name="">
-          <color rgba="0.2 0.2 0.2 1" />
+          <color rgba="0.50 0.50 0.50 1" />
         </material>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-2.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-2.STL" />
         </geometry>
       </collision>
     </link>
@@ -444,7 +456,8 @@
       <child link="${prefix}link_22" />
       <axis xyz="0 1 0" />
       <!-- 0 deg / +67 deg-->
-      <limit lower="0" upper="1.1693706" effort="15" velocity="7" />
+      <limit lower="0" upper="1.1693706" effort="0.38" velocity="8.70" />
+      <dynamics damping="0.1" friction="0.01" />
     </joint>
     <link name="${prefix}link_23">
       <inertial>
@@ -456,16 +469,16 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-3.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-3.STL" />
         </geometry>
         <material name="">
-          <color rgba="0.2 0.2 0.2 1" />
+          <color rgba="0.50 0.50 0.50 1" />
         </material>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-3.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-3.STL" />
         </geometry>
       </collision>
     </link>
@@ -475,7 +488,8 @@
       <child link="${prefix}link_23" />
       <axis xyz="0 1 0" />
       <!-- 0 deg / +67 deg-->
-      <limit lower="0" upper="1.1693706" effort="15" velocity="7" />
+      <limit lower="0" upper="1.1693706" effort="0.38" velocity="8.70" />
+      <dynamics damping="0.1" friction="0.01" />
     </joint>
     <link name="${prefix}link_24">
       <inertial>
@@ -487,16 +501,16 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-4.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-4.STL" />
         </geometry>
         <material name="">
-          <color rgba="0.2 0.2 0.2 1" />
+          <color rgba="0.50 0.50 0.50 1" />
         </material>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-4.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-4.STL" />
         </geometry>
       </collision>
     </link>
@@ -506,63 +520,65 @@
       <child link="${prefix}link_24" />
       <axis xyz="0 1 0" />
       <!-- 0 deg / +67 deg-->
-      <limit lower="0" upper="1.1693706" effort="15" velocity="7" />
+      <limit lower="0" upper="1.1693706" effort="0.38" velocity="8.70" />
+      <dynamics damping="0.1" friction="0.01" />
     </joint>
-    <link name="${prefix}link_30">
-      <inertial>
-        <origin xyz="0.00213309234037883 -0.0079549925576723 4.41353473389847E-05" rpy="0 0 0" />
-        <mass value="0.02" />
-        <inertia ixx="8.05738736659494E-07" ixy="8.2058782283466E-08" ixz="-8.40472921756292E-09"
-          iyy="2.50012922748597E-06" iyz="8.9976712814495E-09" izz="2.06293183621632E-06" />
-      </inertial>
-      <visual>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-0.STL" />
-        </geometry>
-        <material name="">
-          <color rgba="0.2 0.2 0.2 1" />
-        </material>
-      </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-0.STL" />
-        </geometry>
-      </collision>
-    </link>
     <link name="${prefix}link_25" />
     <joint name="${prefix}joint2x1" type="fixed">
       <origin xyz="0 0 0.05" rpy="0 0 0" />
       <parent link="${prefix}link_24" />
       <child link="${prefix}link_25" />
     </joint>
-    <joint name="${prefix}joint3x0" type="fixed">
-      <origin xyz="0 0.041237 -0.011569" rpy="-0.0872665 0 0" />
-      <parent link="${prefix}palm_link" />
-      <child link="${prefix}link_30" />
-      <axis xyz="0 0 0" />
-    </joint>
-    <link name="${prefix}link_31">
+
+
+    <link name="${prefix}link_30">
       <inertial>
-        <origin xyz="-0.0101722660107688 -0.00969273259874199 -0.00119006199281816" rpy="0 0 0" />
+        <origin xyz="-4.41353594591229E-05 -0.00963309232581332 -0.00795499254600742" rpy="0 0 0" />
         <mass value="0.02" />
-        <inertia ixx="1.30062738946102E-06" ixy="-7.4787127218524E-09" ixz="3.41340540723836E-09"
-          iyy="1.30956101769866E-06" iyz="4.64617847293456E-08" izz="1.26530539132705E-06" />
+        <inertia ixx="2.06293184065839E-06" ixy="-8.40472981782298E-09" ixz="-8.99766962497421E-09"
+          iyy="8.05738737390995E-07" iyz="-8.20587839080824E-08" izz="2.50012922950454E-06" />
       </inertial>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-1.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-0.STL" />
         </geometry>
         <material name="">
-          <color rgba="0.2 0.2 0.2 1" />
+          <color rgba="0.50 0.50 0.50 1" />
         </material>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-1.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-0.STL" />
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${prefix}joint3x0" type="fixed">
+      <origin xyz="0 -0.041237 -0.011569" rpy="0.0872665 0 0" />
+      <parent link="${prefix}palm_link" />
+      <child link="${prefix}link_30" />
+    </joint>
+    <link name="${prefix}link_31">
+      <inertial>
+        <origin xyz="-0.0101722660107688 -0.00969273259874198 -0.00119006199281819" rpy="0 0 0" />
+        <mass value="0.02" />
+        <inertia ixx="1.30062738946102E-06" ixy="-7.47871272185257E-09" ixz="3.41340540723858E-09"
+          iyy="1.30956101769866E-06" iyz="4.64617847293456E-08" izz="1.26530539132705E-06" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-1.STL" />
+        </geometry>
+        <material name="">
+          <color rgba="0.50 0.50 0.50 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-1.STL" />
         </geometry>
       </collision>
     </link>
@@ -570,30 +586,31 @@
       <origin xyz="0 0 0" rpy="0 0 0" />
       <parent link="${prefix}link_30" />
       <child link="${prefix}link_31" />
-      <axis xyz="1 0 0" />
+      <axis xyz="-1 0 0" />
       <!-- -30 deg / + 30 deg-->
-      <limit lower="-0.5235988" upper="0.5235988" effort="15" velocity="7" />
+      <limit lower="-0.5235988" upper="0.5235988" effort="0.38" velocity="8.70" />
+      <dynamics damping="0.1" friction="0.01" />
     </joint>
     <link name="${prefix}link_32">
       <inertial>
-        <origin xyz="1.45350522798293E-08 -0.00858909560235334 0.000948355672940028" rpy="0 0 0" />
+        <origin xyz="1.4418236590763E-08 -0.00858909568015356 0.000948355626649147" rpy="0 0 0" />
         <mass value="0.04" />
-        <inertia ixx="2.12804061694947E-06" ixy="3.17787051269347E-09" ixz="-9.38556866273311E-12"
-          iyy="9.98936750250966E-06" iyz="1.32929821180897E-08" izz="1.05163236551884E-05" />
+        <inertia ixx="2.12804061194362E-06" ixy="3.17788645895422E-09" ixz="-9.33572458417814E-12"
+          iyy="9.98936759793809E-06" iyz="1.32929824691148E-08" izz="1.05163237746123E-05" />
       </inertial>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-2.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-2.STL" />
         </geometry>
         <material name="">
-          <color rgba="0.2 0.2 0.2 1" />
+          <color rgba="0.50 0.50 0.50 1" />
         </material>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-2.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-2.STL" />
         </geometry>
       </collision>
     </link>
@@ -603,28 +620,29 @@
       <child link="${prefix}link_32" />
       <axis xyz="0 1 0" />
       <!-- 0 deg / +67 deg-->
-      <limit lower="0" upper="1.1693706" effort="15" velocity="7" />
+      <limit lower="0" upper="1.1693706" effort="0.38" velocity="8.70" />
+      <dynamics damping="0.1" friction="0.01" />
     </joint>
     <link name="${prefix}link_33">
       <inertial>
-        <origin xyz="0.00721219099086241 -0.00441669913337903 -0.00274615184345359" rpy="0 0 0" />
+        <origin xyz="0.00721219118933854 -0.00758330017838707 0.00274615181108999" rpy="0 0 0" />
         <mass value="0.03" />
-        <inertia ixx="1.41212487584742E-06" ixy="6.54592674370762E-08" ixz="-7.71922750022857E-08"
-          iyy="5.1257610354363E-06" iyz="6.10641831731047E-09" izz="4.65688663033919E-06" />
+        <inertia ixx="1.41212488823125E-06" ixy="-6.54590367760427E-08" ixz="7.71922806136232E-08"
+          iyy="5.12576091395449E-06" iyz="6.10641738197412E-09" izz="4.6568865354446E-06" />
       </inertial>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-3.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-3.STL" />
         </geometry>
         <material name="">
-          <color rgba="0.2 0.2 0.2 1" />
+          <color rgba="0.50 0.50 0.50 1" />
         </material>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-3.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-3.STL" />
         </geometry>
       </collision>
     </link>
@@ -634,28 +652,29 @@
       <child link="${prefix}link_33" />
       <axis xyz="0 1 0" />
       <!-- 0 deg / +67 deg-->
-      <limit lower="0" upper="1.1693706" effort="15" velocity="7" />
+      <limit lower="0" upper="1.1693706" effort="0.38" velocity="8.70" />
+      <dynamics damping="0.1" friction="0.01" />
     </joint>
     <link name="${prefix}link_34">
       <inertial>
-        <origin xyz="-0.00048328012681697 -0.0170653411612805 0.000197616367281619" rpy="0 0 0" />
+        <origin xyz="-0.02404265889907 -0.0126023827249109 -0.000166719467604045" rpy="0 0 0" />
         <mass value="0.02" />
-        <inertia ixx="1.70865948709507E-06" ixy="-3.31490114976918E-08" ixz="7.36197740895987E-10"
-          iyy="1.89748889737562E-06" iyz="-1.66774688625787E-09" izz="2.02684210848521E-06" />
+        <inertia ixx="1.89748889580941E-06" ixy="1.66774648072704E-09" ixz="-3.31489990867933E-08"
+          iyy="2.02684188082002E-06" iyz="-7.35814181141325E-10" izz="1.70865967319708E-06" />
       </inertial>
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-4.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-4.STL" />
         </geometry>
         <material name="">
-          <color rgba="0.2 0.2 0.2 1" />
+          <color rgba="0.50 0.50 0.50 1" />
         </material>
       </visual>
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://allegro_hand_plexus_description/meshes/left/Finger-4.STL" />
+          <mesh filename="package://allegro_hand_plexus_description/meshes/right/Finger-4.STL" />
         </geometry>
       </collision>
     </link>
@@ -665,7 +684,8 @@
       <child link="${prefix}link_34" />
       <axis xyz="0 1 0" />
       <!-- 0 deg / +67 deg-->
-      <limit lower="0" upper="1.1693706" effort="15" velocity="7" />
+      <limit lower="0" upper="1.1693706" effort="0.38" velocity="8.70" />
+      <dynamics damping="0.1" friction="0.01" />
     </joint>
     <link name="${prefix}link_35" />
     <joint name="${prefix}joint3x1" type="fixed">
@@ -673,7 +693,6 @@
       <parent link="${prefix}link_34" />
       <child link="${prefix}link_35" />
     </joint>
-
 
     <gazebo reference="${prefix}palm_link">
       <self_collide>false</self_collide>
@@ -738,6 +757,6 @@
     <gazebo reference="${prefix}link_34">
       <self_collide>false</self_collide>
     </gazebo>
-    
+
   </xacro:macro>
 </robot>

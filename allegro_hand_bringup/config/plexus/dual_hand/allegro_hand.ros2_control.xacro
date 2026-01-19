@@ -9,8 +9,11 @@
                 <xacro:if value="${ros2_control_hardware_type == 'mock_components'}">
                     <plugin>mock_components/GenericSystem</plugin>
                 </xacro:if>
+                <xacro:if value="${ros2_control_hardware_type == 'gazebo'}">
+                    <plugin>allegro_hand_gazebo_plugin/AllegroHand</plugin>
+                </xacro:if>
                 <xacro:if value="${ros2_control_hardware_type == 'physical_device'}">
-                    <plugin>allegro_hand_v4_hardware/AllegroHandV4HardwareInterface</plugin>
+                    <plugin>allegro_hand_plexus_hardware/AllegroHandPlexusHardwareInterface</plugin>
                     <param name="io_interface_descriptor">${io_interface_descriptor}</param>
                     <param name="hand_id">${hand_id}</param>
                     <param name="device_prefix">${prefix}</param>
@@ -48,7 +51,6 @@
                     <param name="d_joint33">${d_gains['joint33']}</param>
                 </xacro:if>
             </hardware>
-
             <joint name="${prefix}joint00">
                 <command_interface name="position"/>
                 <command_interface name="effort"/>
@@ -320,6 +322,19 @@
                   <param name="initial_value">0.0</param>
                 </state_interface>
             </joint>
+
+            <sensor name="${prefix}imu">
+                <state_interface name="orientation.x"/>
+                <state_interface name="orientation.y"/>
+                <state_interface name="orientation.z"/>
+                <state_interface name="orientation.w"/>
+                <state_interface name="linear_acceleration.x"/>
+                <state_interface name="linear_acceleration.y"/>
+                <state_interface name="linear_acceleration.z"/>
+                <state_interface name="angular_velocity.x"/>
+                <state_interface name="angular_velocity.y"/>
+                <state_interface name="angular_velocity.z"/>
+            </sensor>
 
         </ros2_control>
     </xacro:macro>
