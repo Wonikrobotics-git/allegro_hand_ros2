@@ -28,9 +28,27 @@
         <origin rpy="0 0 0" xyz="0 0.17 0" />
     </joint>
 
-    <xacro:include filename="$(find allegro_hand_bringup)/config/v4/dual_hand/dual_hand.ros2_control.xacro" />
+    <xacro:include filename="$(find allegro_hand_bringup)/config/v4/dual_hand/allegro_hand.ros2_control.xacro" />
     <xacro:allegro_hand_ros2_control name="AllegroHandV4Right" initial_positions_file="$(arg initial_positions_file)" pd_gains_file="$(arg pd_gains_file)" prefix="$(arg right_prefix)" io_interface_descriptor="can:can0" hand_id="0" ros2_control_hardware_type="$(arg ros2_control_hardware_type)"/>
 
-    <xacro:include filename="$(find allegro_hand_bringup)/config/v4/dual_hand/dual_hand.ros2_control.xacro" />
+    <xacro:include filename="$(find allegro_hand_bringup)/config/v4/dual_hand/allegro_hand.ros2_control.xacro" />
     <xacro:allegro_hand_ros2_control name="AllegroHandV4Left" initial_positions_file="$(arg initial_positions_file)" pd_gains_file="$(arg pd_gains_file)" prefix="$(arg left_prefix)" io_interface_descriptor="can:can1" hand_id="1" ros2_control_hardware_type="$(arg ros2_control_hardware_type)"/>
+
+    <xacro:if value="${'$(arg ros2_control_hardware_type)' == 'gazebo'}">
+        <!-- Fix base_link to the world for Gazebo -->
+        <link name="world"/>
+        <joint name="world_fixed" type="fixed">
+            <parent link="world"/>
+            <child link="dual_hand_base_link"/> <origin xyz="0 0 0" rpy="0 0 0"/> 
+        </joint> 
+
+        <!-- Add Gazebo ROS 2 control plugin -->
+        <gazebo> 
+            <plugin
+                filename="gz_ros2_control-system"
+                name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+                <parameters>$(find allegro_hand_bringup)/config/v4/dual_hand/ros2_controllers.yaml</parameters>
+            </plugin>
+        </gazebo>
+    </xacro:if>
 </robot>

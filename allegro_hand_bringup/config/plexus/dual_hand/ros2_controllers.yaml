@@ -8,20 +8,20 @@ controller_manager:
     allegro_hand_position_controller_r:
       type: forward_command_controller/ForwardCommandController
 
-    allegro_hand_posture_controller_r:
-      type: position_controllers/AllegroHandGraspController
+    # allegro_hand_posture_controller_r:
+    #   type: position_controllers/AllegroHandGraspController
 
-    allegro_hand_grasp_controller_r:
-      type: effort_controllers/AllegroHandGraspController
+    # allegro_hand_grasp_controller_r:
+    #   type: effort_controllers/AllegroHandGraspController
 
     allegro_hand_position_controller_l:
       type: forward_command_controller/ForwardCommandController
 
-    allegro_hand_posture_controller_l:
-      type: position_controllers/AllegroHandGraspController
+    # allegro_hand_posture_controller_l:
+    #   type: position_controllers/AllegroHandGraspController
 
-    allegro_hand_grasp_controller_l:
-      type: effort_controllers/AllegroHandGraspController
+    # allegro_hand_grasp_controller_l:
+    #   type: effort_controllers/AllegroHandGraspController
 
 allegro_hand_position_controller_l:
   ros__parameters:
@@ -44,60 +44,60 @@ allegro_hand_position_controller_l:
       - ahl_joint33  
     interface_name: position
 
-allegro_hand_posture_controller_l:
-  ros__parameters:
-    goal_tolerance : 0.01
-    allow_stalling : True 
-    stall_timeout : 0.5
-    stall_velocity_threshold : 0.01
-    joints:
-      - ahl_joint00
-      - ahl_joint01
-      - ahl_joint02
-      - ahl_joint03
-      - ahl_joint10
-      - ahl_joint11
-      - ahl_joint12
-      - ahl_joint13
-      - ahl_joint20
-      - ahl_joint21
-      - ahl_joint22
-      - ahl_joint23
-      - ahl_joint30
-      - ahl_joint31
-      - ahl_joint32
-      - ahl_joint33
+# allegro_hand_posture_controller_l:
+#   ros__parameters:
+#     goal_tolerance : 0.01
+#     allow_stalling : True 
+#     stall_timeout : 0.5
+#     stall_velocity_threshold : 0.01
+#     joints:
+#       - ahl_joint00
+#       - ahl_joint01
+#       - ahl_joint02
+#       - ahl_joint03
+#       - ahl_joint10
+#       - ahl_joint11
+#       - ahl_joint12
+#       - ahl_joint13
+#       - ahl_joint20
+#       - ahl_joint21
+#       - ahl_joint22
+#       - ahl_joint23
+#       - ahl_joint30
+#       - ahl_joint31
+#       - ahl_joint32
+#       - ahl_joint33
 
-allegro_hand_grasp_controller_l:
-  ros__parameters:
-    device : "v4"
-    goal_tolerance : 0.01
-    allow_stalling : True 
-    stall_timeout : 0.5
-    stall_velocity_threshold : 0.01
-    joints:
-      - ahl_joint00
-      - ahl_joint01
-      - ahl_joint02
-      - ahl_joint03
-      - ahl_joint10
-      - ahl_joint11
-      - ahl_joint12
-      - ahl_joint13
-      - ahl_joint20
-      - ahl_joint21
-      - ahl_joint22
-      - ahl_joint23
-      - ahl_joint30
-      - ahl_joint31
-      - ahl_joint32
-      - ahl_joint33  
-    grasp_reference_frame: palm_link
-    fingertips:
-      - ahl_link_05
-      - ahl_link_15
-      - ahl_link_25
-      - ahl_link_35
+# allegro_hand_grasp_controller_l:
+#   ros__parameters:
+#     device : "v4"
+#     goal_tolerance : 0.01
+#     allow_stalling : True 
+#     stall_timeout : 0.5
+#     stall_velocity_threshold : 0.01
+#     joints:
+#       - ahl_joint00
+#       - ahl_joint01
+#       - ahl_joint02
+#       - ahl_joint03
+#       - ahl_joint10
+#       - ahl_joint11
+#       - ahl_joint12
+#       - ahl_joint13
+#       - ahl_joint20
+#       - ahl_joint21
+#       - ahl_joint22
+#       - ahl_joint23
+#       - ahl_joint30
+#       - ahl_joint31
+#       - ahl_joint32
+#       - ahl_joint33  
+#     grasp_reference_frame: palm_link
+#     fingertips:
+#       - ahl_link_05
+#       - ahl_link_15
+#       - ahl_link_25
+#       - ahl_link_35
 
 allegro_hand_position_controller_r:
   ros__parameters:
@@ -120,57 +120,57 @@ allegro_hand_position_controller_r:
       - ahr_joint33 
     interface_name: position
 
-allegro_hand_posture_controller_r:
-  ros__parameters:
-    goal_tolerance : 0.01
-    allow_stalling : True 
-    stall_timeout : 0.5
-    stall_velocity_threshold : 0.01
-    joints:
-      - ahr_joint00
-      - ahr_joint01
-      - ahr_joint02
-      - ahr_joint03
-      - ahr_joint10
-      - ahr_joint11
-      - ahr_joint12
-      - ahr_joint13
-      - ahr_joint20
-      - ahr_joint21
-      - ahr_joint22
-      - ahr_joint23
-      - ahr_joint30
-      - ahr_joint31
-      - ahr_joint32
-      - ahr_joint33
+# allegro_hand_posture_controller_r:
+#   ros__parameters:
+#     goal_tolerance : 0.01
+#     allow_stalling : True 
+#     stall_timeout : 0.5
+#     stall_velocity_threshold : 0.01
+#     joints:
+#       - ahr_joint00
+#       - ahr_joint01
+#       - ahr_joint02
+#       - ahr_joint03
+#       - ahr_joint10
+#       - ahr_joint11
+#       - ahr_joint12
+#       - ahr_joint13
+#       - ahr_joint20
+#       - ahr_joint21
+#       - ahr_joint22
+#       - ahr_joint23
+#       - ahr_joint30
+#       - ahr_joint31
+#       - ahr_joint32
+#       - ahr_joint33
 
-allegro_hand_grasp_controller_r:
-  ros__parameters:
-    device : "v4"
-    goal_tolerance : 0.01
-    allow_stalling : True 
-    stall_timeout : 0.5
-    stall_velocity_threshold : 0.01
-    joints:
-      - ahr_joint00
-      - ahr_joint01
-      - ahr_joint02
-      - ahr_joint03
-      - ahr_joint10
-      - ahr_joint11
-      - ahr_joint12
-      - ahr_joint13
-      - ahr_joint20
-      - ahr_joint21
-      - ahr_joint22
-      - ahr_joint23
-      - ahr_joint30
-      - ahr_joint31
-      - ahr_joint32
-      - ahr_joint33
-    grasp_reference_frame: palm_link
-    fingertips:
-      - ahr_link_05
-      - ahr_link_15
-      - ahr_link_25
-      - ahr_link_35
+# allegro_hand_grasp_controller_r:
+#   ros__parameters:
+#     device : "v4"
+#     goal_tolerance : 0.01
+#     allow_stalling : True 
+#     stall_timeout : 0.5
+#     stall_velocity_threshold : 0.01
+#     joints:
+#       - ahr_joint00
+#       - ahr_joint01
+#       - ahr_joint02
+#       - ahr_joint03
+#       - ahr_joint10
+#       - ahr_joint11
+#       - ahr_joint12
+#       - ahr_joint13
+#       - ahr_joint20
+#       - ahr_joint21
+#       - ahr_joint22
+#       - ahr_joint23
+#       - ahr_joint30
+#       - ahr_joint31
+#       - ahr_joint32
+#       - ahr_joint33
+#     grasp_reference_frame: palm_link
+#     fingertips:
+#       - ahr_link_05
+#       - ahr_link_15
+#       - ahr_link_25
+#       - ahr_link_35
