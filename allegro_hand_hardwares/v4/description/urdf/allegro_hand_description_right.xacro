@@ -1,624 +1,669 @@
 <?xml version="1.0"?>
-<!-- =================================================================================== -->
-<!-- |    This document was converted from allegro_hand_description_right.urdf to xacro | -->
-<!-- =================================================================================== -->
+
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="allegro_hand_right">
   <xacro:macro name="allegro_hand_right" params="prefix:=''">
     <!-- Root base_link (virtual link for reference frame) -->
-    <link name="${prefix}base_link"/>
+    <link name="${prefix}base_link" />
     <!-- Fixed joint connecting base_link to palm_link -->
     <joint name="${prefix}base_to_palm_joint" type="fixed">
-      <parent link="${prefix}base_link"/>
-      <child link="${prefix}palm_link"/>
-      <origin xyz="0 0 0.095" rpy="0 0 0"/>
+      <parent link="${prefix}base_link" />
+      <child link="${prefix}palm_link" />
+      <origin xyz="0 0 0.095" rpy="0 0 0" />
     </joint>
-    <!-- ======================== PROPERTY DEFINITIONS ======================== -->
-    <!-- Define all necessary properties first -->
-    <!-- Changed from 0.0007 -->
-    <!-- ============================================================================= -->
-    <!-- ========================= LINK DEFINITIONS ========================= -->
-    <!-- Define the base link (palm_link) first -->
-    <!-- PALM -->
+
     <link name="${prefix}palm_link">
       <visual>
         <geometry>
-          <mesh filename="package://allegro_hand_v4_description/meshes/palm_link.STL"/>
+          <mesh filename="package://allegro_hand_v4_description/meshes/palm_link.STL" />
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <origin rpy="0 0 0" xyz="0 0 0" />
         <material name="${prefix}black">
-          <color rgba="0.2 0.2 0.2 1"/>
+          <color rgba="0.2 0.2 0.2 1" />
         </material>
       </visual>
       <collision>
-        <origin rpy="0 0 0" xyz="-0.009300 0 -0.0475"/>
+        <origin rpy="0 0 0" xyz="-0.009300 0 -0.0475" />
         <geometry>
-          <box size="0.0408 0.1130 0.095"/>
+          <box size="0.0408 0.1130 0.095" />
         </geometry>
       </collision>
       <inertial>
-        <origin rpy="0 0 0" xyz="0 0 0.0475"/>
-        <mass value="0.4154"/>
-        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4"/>
+        <origin rpy="0 0 0" xyz="0 0 0.0475" />
+        <mass value="0.4154" />
+        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4" />
       </inertial>
     </link>
-    <!-- ============================================================================= -->
-    <!-- ========================= MACRO DEFINITIONS ========================= -->
-    <!-- Define all macros before their usage -->
-    <!-- [[END]] THREE FINGER MACRO -->
-    <!-- [[END]] THREE FINGER MACRO -->
-    <!-- [[END]] THREE FINGER MACRO -->
-    <!-- [[END]] THREE FINGER MACRO -->
-    <!-- [[END]] THREE FINGER MACRO -->
-    <!-- [[END]] THREE FINGER MACRO -->
-    <!-- ========================= END MACRO DEFINITIONS ========================= -->
-    <!-- ============================================================================= -->
-    <!-- ======================== FINGER INSTANCES ========================= -->
-    <!-- Now that macros are defined, use them to instantiate fingers and thumb -->
-    <!-- FINGERS -->
-    <!-- RIGHT HAND due to which finger is number 0 -->
-    <!-- For LEFT HAND, switch the sign of the **offset_origin_y** and **finger_angle_r** parameters -->
-    <!-- [LINK 0, 4, 8] -->
-    <link name="${prefix}link_10">
-      <visual>
-        <geometry>
-          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.0.STL"/>
-        </geometry>
-        <material name="${prefix}black"/>
-      </visual>
-      <collision>
-        <geometry>
-          <box size="0.0196 0.0275 0.0164"/>
-        </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0.0082"/>
-      </collision>
-      <inertial>
-        <mass value="0.0119"/>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4"/>
-      </inertial>
-    </link>
-    <joint name="${prefix}joint10" type="revolute">
-      <axis xyz="0 0 1"/>
-      <limit effort="15" lower="-0.47" upper="0.47" velocity="7"/>
-      <parent link="${prefix}palm_link"/>
-      <child link="${prefix}link_10"/>
-      <origin rpy="-0.08726646254999999 0 0" xyz="0 0.0435 0"/>
-      <dynamics damping="3" friction="10"/>
-    </joint>
-    <!-- [LINK 1, 5, 9] -->
-    <link name="${prefix}link_11">
-      <visual>
-        <geometry>
-          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.1.STL"/>
-        </geometry>
-        <material name="${prefix}black"/>
-      </visual>
-      <collision>
-        <geometry>
-          <box size="0.0196 0.0275 0.054"/>
-        </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0.027"/>
-      </collision>
-      <inertial>
-        <mass value="0.065"/>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4"/>
-      </inertial>
-    </link>
-    <joint name="${prefix}joint11" type="revolute">
-      <limit effort="15" lower="-0.19599999999999998" upper="1.6099999999999999" velocity="7"/>
-      <axis xyz="0 1 0"/>
-      <parent link="${prefix}link_10"/>
-      <child link="${prefix}link_11"/>
-      <origin xyz="0 0 0.0164"/>
-      <dynamics damping="3" friction="5"/>
-    </joint>
-    <!-- [LINK 2, 6, 10]-->
-    <link name="${prefix}link_12">
-      <visual>
-        <geometry>
-          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.2.STL"/>
-        </geometry>
-        <material name="${prefix}black"/>
-      </visual>
-      <collision>
-        <geometry>
-          <box size="0.0196 0.0275 0.0384"/>
-        </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0.0192"/>
-      </collision>
-      <inertial>
-        <mass value="0.0355"/>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4"/>
-      </inertial>
-    </link>
-    <joint name="${prefix}joint12" type="revolute">
-      <axis xyz="0 1 0"/>
-      <limit effort="15" lower="-0.17400000000000002" upper="1.7089999999999999" velocity="7"/>
-      <parent link="${prefix}link_11"/>
-      <child link="${prefix}link_12"/>
-      <origin xyz="0 0 0.054"/>
-      <dynamics damping="8" friction="10"/>
-    </joint>
-    <!-- [LINK 3, 7, 11] -->
-    <link name="${prefix}link_13">
-      <visual>
-        <geometry>
-          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.3.STL"/>
-        </geometry>
-        <material name="${prefix}black"/>
-      </visual>
-      <collision>
-        <geometry>
-          <box size="0.0196 0.0275 0.026699999999999998"/>
-        </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0.013349999999999999"/>
-      </collision>
-      <inertial>
-        <mass value="0.0096"/>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4"/>
-      </inertial>
-    </link>
-    <joint name="${prefix}joint13" type="revolute">
-      <axis xyz="0 1 0"/>
-      <limit effort="15" lower="-0.227" upper="1.6179999999999999" velocity="7"/>
-      <parent link="${prefix}link_12"/>
-      <child link="${prefix}link_13"/>
-      <origin xyz="0 0 0.0384"/>
-      <dynamics damping="10" friction="12"/>
-    </joint>
-    <!-- [FINGER TIP] -->
-    <link name="${prefix}link_14">
-      <visual>
-        <geometry>
-          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.4.STL"/>
-        </geometry>
-        <material name="${prefix}white">
-          <color rgba=".9 .9 .9 1"/>
-        </material>
-      </visual>
-      <collision>
-        <geometry>
-          <sphere radius="0.012"/>
-        </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-      </collision>
-      <inertial>
-        <mass value="0.0168"/>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4"/>
-      </inertial>
-    </link>
-    <joint name="${prefix}joint.13.14" type="fixed">
-      <parent link="${prefix}link_13"/>
-      <child link="${prefix}link_14"/>
-      <origin rpy="0 0 0" xyz="0 0 0.026699999999999998"/>
-    </joint>
-    <!-- [LINK 0, 4, 8] -->
-    <link name="${prefix}link_20">
-      <visual>
-        <geometry>
-          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.0.STL"/>
-        </geometry>
-        <material name="${prefix}black"/>
-      </visual>
-      <collision>
-        <geometry>
-          <box size="0.0196 0.0275 0.0164"/>
-        </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0.0082"/>
-      </collision>
-      <inertial>
-        <mass value="0.0119"/>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4"/>
-      </inertial>
-    </link>
-    <joint name="${prefix}joint20" type="revolute">
-      <axis xyz="0 0 1"/>
-      <limit effort="15" lower="-0.47" upper="0.47" velocity="7"/>
-      <parent link="${prefix}palm_link"/>
-      <child link="${prefix}link_20"/>
-      <origin rpy="0.0 0 0" xyz="0 0 0"/>
-      <dynamics damping="3" friction="10"/>
-    </joint>
-    <!-- [LINK 1, 5, 9] -->
-    <link name="${prefix}link_21">
-      <visual>
-        <geometry>
-          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.1.STL"/>
-        </geometry>
-        <material name="${prefix}black"/>
-      </visual>
-      <collision>
-        <geometry>
-          <box size="0.0196 0.0275 0.054"/>
-        </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0.027"/>
-      </collision>
-      <inertial>
-        <mass value="0.065"/>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4"/>
-      </inertial>
-    </link>
-    <joint name="${prefix}joint21" type="revolute">
-      <limit effort="15" lower="-0.19599999999999998" upper="1.6099999999999999" velocity="7"/>
-      <axis xyz="0 1 0"/>
-      <parent link="${prefix}link_20"/>
-      <child link="${prefix}link_21"/>
-      <origin xyz="0 0 0.0164"/>
-      <dynamics damping="3" friction="5"/>
-    </joint>
-    <!-- [LINK 2, 6, 10]-->
-    <link name="${prefix}link_22">
-      <visual>
-        <geometry>
-          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.2.STL"/>
-        </geometry>
-        <material name="${prefix}black"/>
-      </visual>
-      <collision>
-        <geometry>
-          <box size="0.0196 0.0275 0.0384"/>
-        </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0.0192"/>
-      </collision>
-      <inertial>
-        <mass value="0.0355"/>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4"/>
-      </inertial>
-    </link>
-    <joint name="${prefix}joint22" type="revolute">
-      <axis xyz="0 1 0"/>
-      <limit effort="15" lower="-0.17400000000000002" upper="1.7089999999999999" velocity="7"/>
-      <parent link="${prefix}link_21"/>
-      <child link="${prefix}link_22"/>
-      <origin xyz="0 0 0.054"/>
-      <dynamics damping="8" friction="10"/>
-    </joint>
-    <!-- [LINK 3, 7, 11] -->
-    <link name="${prefix}link_23">
-      <visual>
-        <geometry>
-          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.3.STL"/>
-        </geometry>
-        <material name="${prefix}black"/>
-      </visual>
-      <collision>
-        <geometry>
-          <box size="0.0196 0.0275 0.026699999999999998"/>
-        </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0.013349999999999999"/>
-      </collision>
-      <inertial>
-        <mass value="0.0096"/>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4"/>
-      </inertial>
-    </link>
-    <joint name="${prefix}joint23" type="revolute">
-      <axis xyz="0 1 0"/>
-      <limit effort="15" lower="-0.227" upper="1.6179999999999999" velocity="7"/>
-      <parent link="${prefix}link_22"/>
-      <child link="${prefix}link_23"/>
-      <origin xyz="0 0 0.0384"/>
-      <dynamics damping="10" friction="12"/>
-    </joint>
-    <!-- [FINGER TIP] -->
-    <link name="${prefix}link_24">
-      <visual>
-        <geometry>
-          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.4.STL"/>
-        </geometry>
-        <material name="${prefix}white">
-          <color rgba=".9 .9 .9 1"/>
-        </material>
-      </visual>
-      <collision>
-        <geometry>
-          <sphere radius="0.012"/>
-        </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-      </collision>
-      <inertial>
-        <mass value="0.0168"/>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-        <inertia ixx="9.68e-07" ixy="0" ixz="0" iyy="9.68e-07" iyz="0" izz="9.68e-07"/>
-      </inertial>
-    </link>
-    <joint name="${prefix}joint.23.24" type="fixed">
-      <parent link="${prefix}link_23"/>
-      <child link="${prefix}link_24"/>
-      <origin rpy="0 0 0" xyz="0 0 0.026699999999999998"/>
-    </joint>
-    <!-- [LINK 0, 4, 8] -->
-    <link name="${prefix}link_30">
-      <visual>
-        <geometry>
-          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.0.STL"/>
-        </geometry>
-        <material name="${prefix}black"/>
-      </visual>
-      <collision>
-        <geometry>
-          <box size="0.0196 0.0275 0.0164"/>
-        </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0.0082"/>
-      </collision>
-      <inertial>
-        <mass value="0.0119"/>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4"/>
-      </inertial>
-    </link>
-    <joint name="${prefix}joint30" type="revolute">
-      <axis xyz="0 0 1"/>
-      <limit effort="15" lower="-0.47" upper="0.47" velocity="7"/>
-      <parent link="${prefix}palm_link"/>
-      <child link="${prefix}link_30"/>
-      <origin rpy="0.08726646254999999 0 0" xyz="0 -0.0435 0"/>
-      <dynamics damping="3" friction="10"/>
-    </joint>
-    <!-- [LINK 1, 5, 9] -->
-    <link name="${prefix}link_31">
-      <visual>
-        <geometry>
-          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.1.STL"/>
-        </geometry>
-        <material name="${prefix}black"/>
-      </visual>
-      <collision>
-        <geometry>
-          <box size="0.0196 0.0275 0.054"/>
-        </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0.027"/>
-      </collision>
-      <inertial>
-        <mass value="0.065"/>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4"/>
-      </inertial>
-    </link>
-    <joint name="${prefix}joint31" type="revolute">
-      <limit effort="15" lower="-0.19599999999999998" upper="1.6099999999999999" velocity="7"/>
-      <axis xyz="0 1 0"/>
-      <parent link="${prefix}link_30"/>
-      <child link="${prefix}link_31"/>
-      <origin xyz="0 0 0.0164"/>
-      <dynamics damping="3" friction="5"/>
-    </joint>
-    <!-- [LINK 2, 6, 10]-->
-    <link name="${prefix}link_32">
-      <visual>
-        <geometry>
-          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.2.STL"/>
-        </geometry>
-        <material name="${prefix}black"/>
-      </visual>
-      <collision>
-        <geometry>
-          <box size="0.0196 0.0275 0.0384"/>
-        </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0.0192"/>
-      </collision>
-      <inertial>
-        <mass value="0.0355"/>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4"/>
-      </inertial>
-    </link>
-    <joint name="${prefix}joint32" type="revolute">
-      <axis xyz="0 1 0"/>
-      <limit effort="15" lower="-0.17400000000000002" upper="1.7089999999999999" velocity="7"/>
-      <parent link="${prefix}link_31"/>
-      <child link="${prefix}link_32"/>
-      <origin xyz="0 0 0.054"/>
-      <dynamics damping="8" friction="10"/>
-    </joint>
-    <!-- [LINK 3, 7, 11] -->
-    <link name="${prefix}link_33">
-      <visual>
-        <geometry>
-          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.3.STL"/>
-        </geometry>
-        <material name="${prefix}black"/>
-      </visual>
-      <collision>
-        <geometry>
-          <box size="0.0196 0.0275 0.026699999999999998"/>
-        </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0.013349999999999999"/>
-      </collision>
-      <inertial>
-        <mass value="0.0096"/>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4"/>
-      </inertial>
-    </link>
-    <joint name="${prefix}joint33" type="revolute">
-      <axis xyz="0 1 0"/>
-      <limit effort="15" lower="-0.227" upper="1.6179999999999999" velocity="7"/>
-      <parent link="${prefix}link_32"/>
-      <child link="${prefix}link_33"/>
-      <origin xyz="0 0 0.0384"/>
-      <dynamics damping="10" friction="12"/>
-    </joint>
-    <!-- [FINGER TIP] -->
-    <link name="${prefix}link_34">
-      <visual>
-        <geometry>
-          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.4.STL"/>
-        </geometry>
-        <material name="${prefix}white">
-          <color rgba=".9 .9 .9 1"/>
-        </material>
-      </visual>
-      <collision>
-        <geometry>
-          <sphere radius="0.012"/>
-        </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-      </collision>
-      <inertial>
-        <mass value="0.0168"/>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-        <inertia ixx="9.68e-07" ixy="0" ixz="0" iyy="9.68e-07" iyz="0" izz="9.68e-07"/>
-      </inertial>
-    </link>
-    <joint name="${prefix}joint.33.34" type="fixed">
-      <parent link="${prefix}link_33"/>
-      <child link="${prefix}link_34"/>
-      <origin rpy="0 0 0" xyz="0 0 0.026699999999999998"/>
-    </joint>
-    <!-- [LINK 12] -->
+
     <link name="${prefix}link_00">
       <visual>
         <geometry>
-          <mesh filename="package://allegro_hand_v4_description/meshes/link_t.0.right.STL"/>
+          <mesh filename="package://allegro_hand_v4_description/meshes/link_t.0.right.STL" />
         </geometry>
         <material name="${prefix}black">
-          <color rgba=".2 .2 .2 1"/>
+          <color rgba=".2 .2 .2 1" />
         </material>
-        <origin rpy="0.01745329251 0 0" xyz="0 0 0"/>
+        <origin rpy="0.01745329251 0 0" xyz="0 0 0" />
       </visual>
       <collision>
         <geometry>
-          <box size="0.0358 0.034 0.0455"/>
+          <box size="0.0358 0.034 0.0455" />
         </geometry>
-        <origin rpy="0 0 0" xyz="-0.0179 0.017 0.02275"/>
+        <origin rpy="0 0 0" xyz="-0.0179 0.017 0.02275" />
       </collision>
       <inertial>
-        <mass value="0.0176"/>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4"/>
+        <mass value="0.0176" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4" />
       </inertial>
     </link>
     <joint name="${prefix}joint00" type="revolute">
-      <axis xyz="-1 0 0"/>
-      <limit effort="15" lower="0.263" upper="1.396" velocity="7"/>
-      <parent link="${prefix}palm_link"/>
-      <child link="${prefix}link_00"/>
-      <origin rpy="0 -1.6580627884499999 -1.5707963259" xyz="-0.0182 0.019333 -0.045987"/>
-      <dynamics damping="3" friction="10"/>
+      <axis xyz="-1 0 0" />
+      <limit effort="15" lower="0.263" upper="1.396" velocity="7" />
+      <parent link="${prefix}palm_link" />
+      <child link="${prefix}link_00" />
+      <origin rpy="0 -1.6580627884499999 -1.5707963259" xyz="-0.0182 0.019333 -0.045987" />
+      <dynamics damping="0.1" friction="0.01" />
     </joint>
-    <!-- [LINK 13] -->
+
     <link name="${prefix}link_01">
       <visual>
         <geometry>
-          <mesh filename="package://allegro_hand_v4_description/meshes/link_t.1.STL"/>
+          <mesh filename="package://allegro_hand_v4_description/meshes/link_t.1.STL" />
         </geometry>
         <material name="${prefix}black">
-          <color rgba=".2 .2 .2 1"/>
+          <color rgba=".2 .2 .2 1" />
         </material>
       </visual>
       <collision>
         <geometry>
-          <box size="0.0196 0.0275 0.0177"/>
+          <box size="0.0196 0.0275 0.0177" />
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0.00885"/>
+        <origin rpy="0 0 0" xyz="0 0 0.00885" />
       </collision>
       <inertial>
-        <mass value="0.0119"/>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4"/>
+        <mass value="0.0119" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4" />
       </inertial>
     </link>
     <joint name="${prefix}joint01" type="revolute">
-      <axis xyz="0 0 1"/>
-      <limit effort="15" lower="-0.10499999999999998" upper="1.1629999999999998" velocity="7"/>
-      <parent link="${prefix}link_00"/>
-      <child link="${prefix}link_01"/>
-      <origin xyz="-0.027 0.005 0.0399"/>
-      <dynamics damping="3" friction="5"/>
+      <axis xyz="0 0 1" />
+      <limit effort="15" lower="-0.10499999999999998" upper="1.1629999999999998" velocity="7" />
+      <parent link="${prefix}link_00" />
+      <child link="${prefix}link_01" />
+      <origin xyz="-0.027 0.005 0.0399" />
+      <dynamics damping="0.1" friction="0.01" />
     </joint>
-    <!-- [LINK 14] -->
+
     <link name="${prefix}link_02">
       <visual>
         <geometry>
-          <mesh filename="package://allegro_hand_v4_description/meshes/link_t.2.STL"/>
+          <mesh filename="package://allegro_hand_v4_description/meshes/link_t.2.STL" />
         </geometry>
-        <material name="${prefix}black"/>
+        <material name="${prefix}black" />
       </visual>
       <collision>
         <geometry>
-          <box size="0.0196 0.0275 0.0514"/>
+          <box size="0.0196 0.0275 0.0514" />
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0.0257"/>
+        <origin rpy="0 0 0" xyz="0 0 0.0257" />
       </collision>
       <inertial>
-        <mass value="0.038"/>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4"/>
+        <mass value="0.038" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4" />
       </inertial>
     </link>
     <joint name="${prefix}joint02" type="revolute">
-      <axis xyz="0 1 0"/>
-      <limit effort="15" lower="-0.18899999999999997" upper="1.644" velocity="7"/>
-      <parent link="${prefix}link_01"/>
-      <child link="${prefix}link_02"/>
-      <origin xyz="0 0 0.0177"/>
-      <dynamics damping="3" friction="10"/>
+      <axis xyz="0 1 0" />
+      <limit effort="15" lower="-0.18899999999999997" upper="1.644" velocity="7" />
+      <parent link="${prefix}link_01" />
+      <child link="${prefix}link_02" />
+      <origin xyz="0 0 0.0177" />
+      <dynamics damping="0.1" friction="0.01" />
     </joint>
-    <!-- [LINK 15] -->
+
     <link name="${prefix}link_03">
       <visual>
         <geometry>
-          <mesh filename="package://allegro_hand_v4_description/meshes/link_t.3.STL"/>
+          <mesh filename="package://allegro_hand_v4_description/meshes/link_t.3.STL" />
         </geometry>
-        <material name="${prefix}black">
-          <color rgba=".2 .2 .2 1"/>
-        </material>
+        <material name="${prefix}black"/> 
       </visual>
       <collision>
         <geometry>
-          <box size="0.0196 0.0275 0.042300000000000004"/>
+          <box size="0.0196 0.0275 0.042300000000000004" />
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0.021150000000000002"/>
+        <origin rpy="0 0 0" xyz="0 0 0.021150000000000002" />
       </collision>
       <inertial>
-        <mass value="0.0388"/>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4"/>
+        <mass value="0.0388" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4" />
       </inertial>
     </link>
     <joint name="${prefix}joint03" type="revolute">
-      <axis xyz="0 1 0"/>
-      <limit effort="15" lower="-0.162" upper="1.7189999999999999" velocity="7"/>
-      <parent link="${prefix}link_02"/>
-      <child link="${prefix}link_03"/>
-      <origin xyz="0 0 0.0514"/>
-      <dynamics damping="3" friction="12"/>
+      <axis xyz="0 1 0" />
+      <limit effort="15" lower="-0.162" upper="1.7189999999999999" velocity="7" />
+      <parent link="${prefix}link_02" />
+      <child link="${prefix}link_03" />
+      <origin xyz="0 0 0.0514" />
+      <dynamics damping="0.1" friction="0.01" />
     </joint>
-    <!-- [FINGER TIP] -->
+
     <link name="${prefix}link_04">
       <visual>
         <geometry>
-          <mesh filename="package://allegro_hand_v4_description/meshes/link_t.4.STL"/>
+          <mesh filename="package://allegro_hand_v4_description/meshes/link_t.4.STL" />
         </geometry>
         <material name="${prefix}white">
-          <color rgba=".9 .9 .9 1"/>
+          <color rgba=".9 .9 .9 1" />
         </material>
       </visual>
       <collision>
         <geometry>
-          <sphere radius="0.012"/>
+          <sphere radius="0.012" />
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <origin rpy="0 0 0" xyz="0 0 0" />
       </collision>
       <inertial>
-        <mass value="0.0168"/>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-        <inertia ixx="9.68e-07" ixy="0" ixz="0" iyy="9.68e-07" iyz="0" izz="9.68e-07"/>
+        <mass value="0.0168" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="9.68e-07" ixy="0" ixz="0" iyy="9.68e-07" iyz="0" izz="9.68e-07" />
       </inertial>
     </link>
-    <joint name="${prefix}joint.03.04" type="fixed">
-      <parent link="${prefix}link_03"/>
-      <child link="${prefix}link_04"/>
-      <origin rpy="0 0 0" xyz="0 0 0.026699999999999998"/>
+    <joint name="${prefix}joint.04" type="fixed">
+      <parent link="${prefix}link_03" />
+      <child link="${prefix}link_04" />
+      <origin rpy="0 0 0" xyz="0 0 0.026699999999999998" />
     </joint>
+
+    <link name="${prefix}link_10">
+      <visual>
+        <geometry>
+          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.0.STL" />
+        </geometry>
+        <material name="${prefix}black" />
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.0196 0.0275 0.0164" />
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0.0082" />
+      </collision>
+      <inertial>
+        <mass value="0.0119" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4" />
+      </inertial>
+    </link>
+    <joint name="${prefix}joint10" type="revolute">
+      <axis xyz="0 0 1" />
+      <limit effort="15" lower="-0.47" upper="0.47" velocity="7" />
+      <parent link="${prefix}palm_link" />
+      <child link="${prefix}link_10" />
+      <origin rpy="-0.08726646254999999 0 0" xyz="0 0.0435 0" />
+      <dynamics damping="0.1" friction="0.01" />
+    </joint>
+
+    <link name="${prefix}link_11">
+      <visual>
+        <geometry>
+          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.1.STL" />
+        </geometry>
+        <material name="${prefix}black" />
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.0196 0.0275 0.054" />
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0.027" />
+      </collision>
+      <inertial>
+        <mass value="0.065" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4" />
+      </inertial>
+    </link>
+    <joint name="${prefix}joint11" type="revolute">
+      <limit effort="15" lower="-0.19599999999999998" upper="1.6099999999999999" velocity="7" />
+      <axis xyz="0 1 0" />
+      <parent link="${prefix}link_10" />
+      <child link="${prefix}link_11" />
+      <origin xyz="0 0 0.0164" />
+      <dynamics damping="0.1" friction="0.01" />
+    </joint>
+
+    <link name="${prefix}link_12">
+      <visual>
+        <geometry>
+          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.2.STL" />
+        </geometry>
+        <material name="${prefix}black" />
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.0196 0.0275 0.0384" />
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0.0192" />
+      </collision>
+      <inertial>
+        <mass value="0.0355" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4" />
+      </inertial>
+    </link>
+    <joint name="${prefix}joint12" type="revolute">
+      <axis xyz="0 1 0" />
+      <limit effort="15" lower="-0.17400000000000002" upper="1.7089999999999999" velocity="7" />
+      <parent link="${prefix}link_11" />
+      <child link="${prefix}link_12" />
+      <origin xyz="0 0 0.054" />
+      <dynamics damping="0.1" friction="0.01" />
+    </joint>
+
+    <link name="${prefix}link_13">
+      <visual>
+        <geometry>
+          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.3.STL" />
+        </geometry>
+        <material name="${prefix}black" />
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.0196 0.0275 0.026699999999999998" />
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0.013349999999999999" />
+      </collision>
+      <inertial>
+        <mass value="0.0096" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4" />
+      </inertial>
+    </link>
+    <joint name="${prefix}joint13" type="revolute">
+      <axis xyz="0 1 0" />
+      <limit effort="15" lower="-0.227" upper="1.6179999999999999" velocity="7" />
+      <parent link="${prefix}link_12" />
+      <child link="${prefix}link_13" />
+      <origin xyz="0 0 0.0384" />
+      <dynamics damping="0.1" friction="0.01" />
+    </joint>
+
+    <link name="${prefix}link_14">
+      <visual>
+        <geometry>
+          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.4.STL" />
+        </geometry>
+        <material name="${prefix}white">
+          <color rgba=".9 .9 .9 1" />
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <sphere radius="0.012" />
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+      </collision>
+      <inertial>
+        <mass value="0.0168" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4" />
+      </inertial>
+    </link>
+    <joint name="${prefix}joint.14" type="fixed">
+      <parent link="${prefix}link_13" />
+      <child link="${prefix}link_14" />
+      <origin rpy="0 0 0" xyz="0 0 0.026699999999999998" />
+    </joint>
+
+    <link name="${prefix}link_20">
+      <visual>
+        <geometry>
+          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.0.STL" />
+        </geometry>
+        <material name="${prefix}black" />
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.0196 0.0275 0.0164" />
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0.0082" />
+      </collision>
+      <inertial>
+        <mass value="0.0119" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4" />
+      </inertial>
+    </link>
+    <joint name="${prefix}joint20" type="revolute">
+      <axis xyz="0 0 1" />
+      <limit effort="15" lower="-0.47" upper="0.47" velocity="7" />
+      <parent link="${prefix}palm_link" />
+      <child link="${prefix}link_20" />
+      <origin rpy="0.0 0 0" xyz="0 0 0" />
+      <dynamics damping="0.1" friction="0.01" />
+    </joint>
+
+    <link name="${prefix}link_21">
+      <visual>
+        <geometry>
+          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.1.STL" />
+        </geometry>
+        <material name="${prefix}black" />
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.0196 0.0275 0.054" />
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0.027" />
+      </collision>
+      <inertial>
+        <mass value="0.065" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4" />
+      </inertial>
+    </link>
+    <joint name="${prefix}joint21" type="revolute">
+      <limit effort="15" lower="-0.19599999999999998" upper="1.6099999999999999" velocity="7" />
+      <axis xyz="0 1 0" />
+      <parent link="${prefix}link_20" />
+      <child link="${prefix}link_21" />
+      <origin xyz="0 0 0.0164" />
+      <dynamics damping="0.1" friction="0.01" />
+    </joint>
+
+    <link name="${prefix}link_22">
+      <visual>
+        <geometry>
+          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.2.STL" />
+        </geometry>
+        <material name="${prefix}black" />
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.0196 0.0275 0.0384" />
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0.0192" />
+      </collision>
+      <inertial>
+        <mass value="0.0355" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4" />
+      </inertial>
+    </link>
+    <joint name="${prefix}joint22" type="revolute">
+      <axis xyz="0 1 0" />
+      <limit effort="15" lower="-0.17400000000000002" upper="1.7089999999999999" velocity="7" />
+      <parent link="${prefix}link_21" />
+      <child link="${prefix}link_22" />
+      <origin xyz="0 0 0.054" />
+      <dynamics damping="0.1" friction="0.01" />
+    </joint>
+
+    <link name="${prefix}link_23">
+      <visual>
+        <geometry>
+          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.3.STL" />
+        </geometry>
+        <material name="${prefix}black" />
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.0196 0.0275 0.026699999999999998" />
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0.013349999999999999" />
+      </collision>
+      <inertial>
+        <mass value="0.0096" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4" />
+      </inertial>
+    </link>
+    <joint name="${prefix}joint23" type="revolute">
+      <axis xyz="0 1 0" />
+      <limit effort="15" lower="-0.227" upper="1.6179999999999999" velocity="7" />
+      <parent link="${prefix}link_22" />
+      <child link="${prefix}link_23" />
+      <origin xyz="0 0 0.0384" />
+      <dynamics damping="0.1" friction="0.01" />
+    </joint>
+
+    <link name="${prefix}link_24">
+      <visual>
+        <geometry>
+          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.4.STL" />
+        </geometry>
+        <material name="${prefix}white">
+          <color rgba=".9 .9 .9 1" />
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <sphere radius="0.012" />
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+      </collision>
+      <inertial>
+        <mass value="0.0168" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="9.68e-07" ixy="0" ixz="0" iyy="9.68e-07" iyz="0" izz="9.68e-07" />
+      </inertial>
+    </link>
+    <joint name="${prefix}joint.24" type="fixed">
+      <parent link="${prefix}link_23" />
+      <child link="${prefix}link_24" />
+      <origin rpy="0 0 0" xyz="0 0 0.026699999999999998" />
+    </joint>
+
+    <link name="${prefix}link_30">
+      <visual>
+        <geometry>
+          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.0.STL" />
+        </geometry>
+        <material name="${prefix}black" />
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.0196 0.0275 0.0164" />
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0.0082" />
+      </collision>
+      <inertial>
+        <mass value="0.0119" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4" />
+      </inertial>
+    </link>
+    <joint name="${prefix}joint30" type="revolute">
+      <axis xyz="0 0 1" />
+      <limit effort="15" lower="-0.47" upper="0.47" velocity="7" />
+      <parent link="${prefix}palm_link" />
+      <child link="${prefix}link_30" />
+      <origin rpy="0.08726646254999999 0 0" xyz="0 -0.0435 0" />
+      <dynamics damping="0.1" friction="0.01" />
+    </joint>
+
+    <link name="${prefix}link_31">
+      <visual>
+        <geometry>
+          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.1.STL" />
+        </geometry>
+        <material name="${prefix}black" />
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.0196 0.0275 0.054" />
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0.027" />
+      </collision>
+      <inertial>
+        <mass value="0.065" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4" />
+      </inertial>
+    </link>
+    <joint name="${prefix}joint31" type="revolute">
+      <limit effort="15" lower="-0.19599999999999998" upper="1.6099999999999999" velocity="7" />
+      <axis xyz="0 1 0" />
+      <parent link="${prefix}link_30" />
+      <child link="${prefix}link_31" />
+      <origin xyz="0 0 0.0164" />
+      <dynamics damping="0.1" friction="0.01" />
+    </joint>
+
+    <link name="${prefix}link_32">
+      <visual>
+        <geometry>
+          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.2.STL" />
+        </geometry>
+        <material name="${prefix}black" />
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.0196 0.0275 0.0384" />
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0.0192" />
+      </collision>
+      <inertial>
+        <mass value="0.0355" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4" />
+      </inertial>
+    </link>
+    <joint name="${prefix}joint32" type="revolute">
+      <axis xyz="0 1 0" />
+      <limit effort="15" lower="-0.17400000000000002" upper="1.7089999999999999" velocity="7" />
+      <parent link="${prefix}link_31" />
+      <child link="${prefix}link_32" />
+      <origin xyz="0 0 0.054" />
+      <dynamics damping="0.1" friction="0.01" />
+    </joint>
+
+    <link name="${prefix}link_33">
+      <visual>
+        <geometry>
+          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.3.STL" />
+        </geometry>
+        <material name="${prefix}black" />
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.0196 0.0275 0.026699999999999998" />
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0.013349999999999999" />
+      </collision>
+      <inertial>
+        <mass value="0.0096" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="1e-4" ixy="0.0" ixz="0.0" iyy="1e-4" iyz="0.0" izz="1e-4" />
+      </inertial>
+    </link>
+    <joint name="${prefix}joint33" type="revolute">
+      <axis xyz="0 1 0" />
+      <limit effort="15" lower="-0.227" upper="1.6179999999999999" velocity="7" />
+      <parent link="${prefix}link_32" />
+      <child link="${prefix}link_33" />
+      <origin xyz="0 0 0.0384" />
+      <dynamics damping="0.1" friction="0.01" />
+    </joint>
+
+    <link name="${prefix}link_34">
+      <visual>
+        <geometry>
+          <mesh filename="package://allegro_hand_v4_description/meshes/link_f.4.STL" />
+        </geometry>
+        <material name="${prefix}white">
+          <color rgba=".9 .9 .9 1" />
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <sphere radius="0.012" />
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+      </collision>
+      <inertial>
+        <mass value="0.0168" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="9.68e-07" ixy="0" ixz="0" iyy="9.68e-07" iyz="0" izz="9.68e-07" />
+      </inertial>
+    </link>
+    <joint name="${prefix}joint.34" type="fixed">
+      <parent link="${prefix}link_33" />
+      <child link="${prefix}link_34" />
+      <origin rpy="0 0 0" xyz="0 0 0.026699999999999998" />
+    </joint>
+
+
+    <gazebo reference="${prefix}palm_link">
+      <self_collide>false</self_collide>
+    </gazebo>
+
+    <gazebo reference="${prefix}link_00">
+      <self_collide>false</self_collide>
+    </gazebo>
+    <gazebo reference="${prefix}link_01">
+      <self_collide>false</self_collide>
+    </gazebo>
+    <gazebo reference="${prefix}link_02">
+      <self_collide>false</self_collide>
+    </gazebo>
+    <gazebo reference="${prefix}link_03">
+      <self_collide>false</self_collide>
+    </gazebo>
+
+    <gazebo reference="${prefix}link_10">
+      <self_collide>false</self_collide>
+    </gazebo>
+    <gazebo reference="${prefix}link_11">
+      <self_collide>false</self_collide>
+    </gazebo>
+    <gazebo reference="${prefix}link_12">
+      <self_collide>false</self_collide>
+    </gazebo>
+    <gazebo reference="${prefix}link_13">
+      <self_collide>false</self_collide>
+    </gazebo>
+
+    <gazebo reference="${prefix}link_20">
+      <self_collide>false</self_collide>
+    </gazebo>
+    <gazebo reference="${prefix}link_21">
+      <self_collide>false</self_collide>
+    </gazebo>
+    <gazebo reference="${prefix}link_22">
+      <self_collide>false</self_collide>
+    </gazebo>
+    <gazebo reference="${prefix}link_23">
+      <self_collide>false</self_collide>
+    </gazebo>
+
+    <gazebo reference="${prefix}link_30">
+      <self_collide>false</self_collide>
+    </gazebo>
+    <gazebo reference="${prefix}link_31">
+      <self_collide>false</self_collide>
+    </gazebo>
+    <gazebo reference="${prefix}link_32">
+      <self_collide>false</self_collide>
+    </gazebo>
+    <gazebo reference="${prefix}link_33">
+      <self_collide>false</self_collide>
+    </gazebo>
+
+    <gazebo reference="${prefix}link_04">
+      <self_collide>false</self_collide>
+    </gazebo>
+    <gazebo reference="${prefix}link_14">
+      <self_collide>false</self_collide>
+    </gazebo>
+    <gazebo reference="${prefix}link_24">
+      <self_collide>false</self_collide>
+    </gazebo>
+    <gazebo reference="${prefix}link_34">
+      <self_collide>false</self_collide>
+    </gazebo>
+
   </xacro:macro>
 </robot>

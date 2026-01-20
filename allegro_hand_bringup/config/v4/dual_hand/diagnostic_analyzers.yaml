@@ -1,0 +1,10 @@
+# diagnostic_analyzers.yaml
+
+pub_rate: 1.0
+base_path: ''
+
+analyzers:
+  allegro_hand:
+    type: diagnostic_aggregator/GenericAnalyzer
+    path: AllegroHandV4
+    contains: ['AllegroHandV4']  

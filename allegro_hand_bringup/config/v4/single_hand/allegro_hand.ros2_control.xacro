@@ -9,6 +9,9 @@
                 <xacro:if value="${ros2_control_hardware_type == 'mock_components'}">
                     <plugin>mock_components/GenericSystem</plugin>
                 </xacro:if>
+                <xacro:if value="${ros2_control_hardware_type == 'gazebo'}">
+                    <plugin>allegro_hand_gazebo_plugin/AllegroHand</plugin>
+                </xacro:if>
                 <xacro:if value="${ros2_control_hardware_type == 'physical_device'}">
                     <plugin>allegro_hand_v4_hardware/AllegroHandV4HardwareInterface</plugin>
                     <param name="io_interface_descriptor">${io_interface_descriptor}</param>

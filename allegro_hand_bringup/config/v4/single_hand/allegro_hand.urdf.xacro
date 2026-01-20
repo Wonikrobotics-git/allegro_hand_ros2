@@ -25,4 +25,23 @@
 
     <xacro:include filename="$(find allegro_hand_bringup)/config/v4/single_hand/allegro_hand.ros2_control.xacro" />
     <xacro:allegro_hand_ros2_control name="AllegroHandV4" initial_positions_file="$(arg initial_positions_file)" pd_gains_file="$(arg pd_gains_file)" io_interface_descriptor="can:can0" hand_id="$(arg hand_id)" prefix="$(arg ah_prefix)" ros2_control_hardware_type="$(arg ros2_control_hardware_type)"/> 
+
+    <xacro:if value="${'$(arg ros2_control_hardware_type)' == 'gazebo'}">
+        <!-- Fix base_link to the world for Gazebo -->
+        <link name="world"/>
+        <joint name="world_fixed" type="fixed">
+            <parent link="world"/>
+            <child link="$(arg ah_prefix)base_link"/> <origin xyz="0 0 0" rpy="0 0 0"/> 
+        </joint>
+
+        <!-- Add Gazebo ROS 2 control plugin -->
+        <gazebo> 
+            <plugin
+                filename="gz_ros2_control-system"
+                name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+                <parameters>$(find allegro_hand_bringup)/config/v4/single_hand/ros2_controllers.yaml</parameters>
+            </plugin>
+        </gazebo>
+    </xacro:if>
+
 </robot>
