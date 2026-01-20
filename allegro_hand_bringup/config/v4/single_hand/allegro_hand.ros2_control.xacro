@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <xacro:macro name="allegro_hand_ros2_control" params="name initial_positions_file pd_gains_file io_interface_descriptor hand_id prefix ros2_control_hardware_type">
+    <xacro:macro name="allegro_hand_ros2_control" params="name initial_positions_file pd_gains_file torque_limits_file io_interface_descriptor hand_id prefix ros2_control_hardware_type">
         <xacro:property name="initial_positions" value="${xacro.load_yaml(initial_positions_file)['initial_positions']}"/>
         <xacro:property name="p_gains" value="${xacro.load_yaml(pd_gains_file)['p_gains']}"/>
         <xacro:property name="d_gains" value="${xacro.load_yaml(pd_gains_file)['d_gains']}"/>
+        <xacro:property name="torque_limits" value="${xacro.load_yaml(torque_limits_file)['torque_limits']}"/>
         <ros2_control name="${name}" type="system">
             <hardware>
                 <xacro:if value="${ros2_control_hardware_type == 'mock_components'}">
@@ -49,6 +50,23 @@
                     <param name="d_joint31">${d_gains['joint31']}</param>
                     <param name="d_joint32">${d_gains['joint32']}</param>
                     <param name="d_joint33">${d_gains['joint33']}</param>
+
+                    <param name="torque_joint00">${torque_limits['joint00']}</param>
+                    <param name="torque_joint01">${torque_limits['joint01']}</param>
+                    <param name="torque_joint02">${torque_limits['joint02']}</param>
+                    <param name="torque_joint03">${torque_limits['joint03']}</param>
+                    <param name="torque_joint10">${torque_limits['joint10']}</param>
+                    <param name="torque_joint11">${torque_limits['joint11']}</param>
+                    <param name="torque_joint12">${torque_limits['joint12']}</param>
+                    <param name="torque_joint13">${torque_limits['joint13']}</param>
+                    <param name="torque_joint20">${torque_limits['joint20']}</param>
+                    <param name="torque_joint21">${torque_limits['joint21']}</param>
+                    <param name="torque_joint22">${torque_limits['joint22']}</param>
+                    <param name="torque_joint23">${torque_limits['joint23']}</param>
+                    <param name="torque_joint30">${torque_limits['joint30']}</param>
+                    <param name="torque_joint31">${torque_limits['joint31']}</param>
+                    <param name="torque_joint32">${torque_limits['joint32']}</param>
+                    <param name="torque_joint33">${torque_limits['joint33']}</param>
                 </xacro:if>
             </hardware>
 
