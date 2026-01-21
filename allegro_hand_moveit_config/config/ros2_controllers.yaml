@@ -3,71 +3,32 @@ controller_manager:
   ros__parameters:
     update_rate: 100  # Hz
 
-    index_controller:
-      type: joint_trajectory_controller/JointTrajectoryController
-
-
-    middle_controller:
-      type: joint_trajectory_controller/JointTrajectoryController
-
-
-    ring_controller:
-      type: joint_trajectory_controller/JointTrajectoryController
-
-
-    thumb_controller:
+    hand_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
 
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
-index_controller:
-  ros__parameters:
-    joints:
-      - ah_joint10
-      - ah_joint11
-      - ah_joint12
-      - ah_joint13
-    command_interfaces:
-      - position
-    state_interfaces:
-      - position
-      - velocity
-    allow_nonzero_velocity_at_trajectory_end: true
-middle_controller:
-  ros__parameters:
-    joints:
-      - ah_joint20
-      - ah_joint21
-      - ah_joint22
-      - ah_joint23
-    command_interfaces:
-      - position
-    state_interfaces:
-      - position
-      - velocity
-    allow_nonzero_velocity_at_trajectory_end: true
-ring_controller:
-  ros__parameters:
-    joints:
-      - ah_joint30
-      - ah_joint31
-      - ah_joint32
-      - ah_joint33
-    command_interfaces:
-      - position
-    state_interfaces:
-      - position
-      - velocity
-    allow_nonzero_velocity_at_trajectory_end: true
-thumb_controller:
+hand_controller:
   ros__parameters:
     joints:
       - ah_joint00
       - ah_joint01
       - ah_joint02
       - ah_joint03
+      - ah_joint10
+      - ah_joint11
+      - ah_joint12
+      - ah_joint13
+      - ah_joint20
+      - ah_joint21
+      - ah_joint22
+      - ah_joint23
+      - ah_joint30
+      - ah_joint31
+      - ah_joint32
+      - ah_joint33
     command_interfaces:
       - position
     state_interfaces:

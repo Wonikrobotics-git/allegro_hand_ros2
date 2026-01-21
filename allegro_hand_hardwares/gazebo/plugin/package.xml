@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="3">
   <name>allegro_hand_gazebo_plugin</name>
-  <version>0.1</version>
+  <version>0.1.0</version>
   <description>Gazebo plugin for Allegro Hand simulation using ros2_control framework.</description>
 
   <maintainer email="wonikrobotics@gmail.com">Wonikrobotics-git</maintainer>

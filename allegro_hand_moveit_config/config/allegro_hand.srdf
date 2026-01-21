@@ -9,36 +9,24 @@
     <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
     <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
     <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
-    <group name="index_controller">
-        <joint name="ah_joint10"/>
-        <joint name="ah_joint11"/>
-        <joint name="ah_joint12"/>
-        <joint name="ah_joint13"/>
-    </group>
-    <group name="middle_controller">
-        <joint name="ah_joint20"/>
-        <joint name="ah_joint21"/>
-        <joint name="ah_joint22"/>
-        <joint name="ah_joint23"/>
-    </group>
-    <group name="ring_controller">
-        <joint name="ah_joint30"/>
-        <joint name="ah_joint31"/>
-        <joint name="ah_joint32"/>
-        <joint name="ah_joint33"/>
-    </group>
-    <group name="thumb_controller">
+    <group name="hand">
+        <link name="ah_palm_link"/>
         <joint name="ah_joint00"/>
         <joint name="ah_joint01"/>
         <joint name="ah_joint02"/>
         <joint name="ah_joint03"/>
-    </group>
-    <group name="hand">
-        <link name="ah_palm_link"/>
-        <group name="index_controller"/>
-        <group name="middle_controller"/>
-        <group name="ring_controller"/>
-        <group name="thumb_controller"/>
+        <joint name="ah_joint10"/>
+        <joint name="ah_joint11"/>
+        <joint name="ah_joint12"/>
+        <joint name="ah_joint13"/>
+        <joint name="ah_joint20"/>
+        <joint name="ah_joint21"/>
+        <joint name="ah_joint22"/>
+        <joint name="ah_joint23"/>
+        <joint name="ah_joint30"/>
+        <joint name="ah_joint31"/>
+        <joint name="ah_joint32"/>
+        <joint name="ah_joint33"/>
     </group>
     <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
     <group_state name="home" group="hand">
@@ -96,14 +84,12 @@
         <joint name="ah_joint33" value="0.6955"/>
     </group_state>
     <group_state name="ready_to_touch" group="hand">
-        <joint name="ah_joint10" value="0"/>
-        <joint name="ah_joint11" value="0"/>
-        <joint name="ah_joint32" value="0"/>
-        <joint name="ah_joint33" value="0.5"/>
         <joint name="ah_joint00" value="0.8294"/>
         <joint name="ah_joint01" value="0"/>
         <joint name="ah_joint02" value="0.5"/>
         <joint name="ah_joint03" value="0.491"/>
+        <joint name="ah_joint10" value="0"/>
+        <joint name="ah_joint11" value="0"/>
         <joint name="ah_joint12" value="0"/>
         <joint name="ah_joint13" value="0.5"/>
         <joint name="ah_joint20" value="0"/>
@@ -112,16 +98,16 @@
         <joint name="ah_joint23" value="0.5"/>
         <joint name="ah_joint30" value="0"/>
         <joint name="ah_joint31" value="0"/>
+        <joint name="ah_joint32" value="0"/>
+        <joint name="ah_joint33" value="0.5"/>
     </group_state>
     <group_state name="rock" group="hand">
-        <joint name="ah_joint10" value="0"/>
-        <joint name="ah_joint11" value="1.4"/>
-        <joint name="ah_joint32" value="1.4"/>
-        <joint name="ah_joint33" value="1"/>
         <joint name="ah_joint00" value="0.4"/>
         <joint name="ah_joint01" value="0.7"/>
         <joint name="ah_joint02" value="0.873"/>
         <joint name="ah_joint03" value="0.9"/>
+        <joint name="ah_joint10" value="0"/>
+        <joint name="ah_joint11" value="1.4"/>
         <joint name="ah_joint12" value="1.4"/>
         <joint name="ah_joint13" value="1"/>
         <joint name="ah_joint20" value="0.009"/>
@@ -130,16 +116,16 @@
         <joint name="ah_joint23" value="1"/>
         <joint name="ah_joint30" value="0"/>
         <joint name="ah_joint31" value="1.4"/>
+        <joint name="ah_joint32" value="1.4"/>
+        <joint name="ah_joint33" value="1"/>
     </group_state>
     <group_state name="paper" group="hand">
-        <joint name="ah_joint10" value="0"/>
-        <joint name="ah_joint11" value="0"/>
-        <joint name="ah_joint32" value="0"/>
-        <joint name="ah_joint33" value="0"/>
         <joint name="ah_joint00" value="0.3"/>
         <joint name="ah_joint01" value="0.1"/>
         <joint name="ah_joint02" value="1.4"/>
         <joint name="ah_joint03" value="0"/>
+        <joint name="ah_joint10" value="0"/>
+        <joint name="ah_joint11" value="0"/>
         <joint name="ah_joint12" value="0"/>
         <joint name="ah_joint13" value="0"/>
         <joint name="ah_joint20" value="0"/>
@@ -148,16 +134,16 @@
         <joint name="ah_joint23" value="0"/>
         <joint name="ah_joint30" value="0"/>
         <joint name="ah_joint31" value="0"/>
+        <joint name="ah_joint32" value="0"/>
+        <joint name="ah_joint33" value="0"/>
     </group_state>
     <group_state name="scissor" group="hand">
-        <joint name="ah_joint10" value="0"/>
-        <joint name="ah_joint11" value="0"/>
-        <joint name="ah_joint32" value="1.2096"/>
-        <joint name="ah_joint33" value="1"/>
         <joint name="ah_joint00" value="0.9"/>
         <joint name="ah_joint01" value="1.1"/>
         <joint name="ah_joint02" value="0.9858"/>
         <joint name="ah_joint03" value="1.2"/>
+        <joint name="ah_joint10" value="0"/>
+        <joint name="ah_joint11" value="0"/>
         <joint name="ah_joint12" value="0"/>
         <joint name="ah_joint13" value="0"/>
         <joint name="ah_joint20" value="0"/>
@@ -166,16 +152,16 @@
         <joint name="ah_joint23" value="-0.009"/>
         <joint name="ah_joint30" value="-0.206"/>
         <joint name="ah_joint31" value="0.9614"/>
+        <joint name="ah_joint32" value="1.2096"/>
+        <joint name="ah_joint33" value="1"/>
     </group_state>
     <group_state name="pick_crane_w_it" group="hand">
-        <joint name="ah_joint10" value="-0.2"/>
-        <joint name="ah_joint11" value="0.8217"/>
-        <joint name="ah_joint32" value="1.4"/>
-        <joint name="ah_joint33" value="1"/>
         <joint name="ah_joint00" value="1.2"/>
         <joint name="ah_joint01" value="0"/>
         <joint name="ah_joint02" value="0.17"/>
         <joint name="ah_joint03" value="1.13"/>
+        <joint name="ah_joint10" value="-0.2"/>
+        <joint name="ah_joint11" value="0.8217"/>
         <joint name="ah_joint12" value="0.8767"/>
         <joint name="ah_joint13" value="0.87"/>
         <joint name="ah_joint20" value="0"/>
@@ -184,16 +170,16 @@
         <joint name="ah_joint23" value="1"/>
         <joint name="ah_joint30" value="0"/>
         <joint name="ah_joint31" value="1.4"/>
-    </group_state>
-    <group_state name="pick_obj_w_it" group="hand">
-        <joint name="ah_joint10" value="-0.2"/>
-        <joint name="ah_joint11" value="1.0213"/>
         <joint name="ah_joint32" value="1.4"/>
         <joint name="ah_joint33" value="1"/>
+    </group_state>
+    <group_state name="pick_obj_w_it" group="hand">
         <joint name="ah_joint00" value="1.215"/>
         <joint name="ah_joint01" value="0"/>
         <joint name="ah_joint02" value="0.173"/>
         <joint name="ah_joint03" value="1.13"/>
+        <joint name="ah_joint10" value="-0.2"/>
+        <joint name="ah_joint11" value="1.0213"/>
         <joint name="ah_joint12" value="0.8351"/>
         <joint name="ah_joint13" value="0.8331"/>
         <joint name="ah_joint20" value="0.012"/>
@@ -202,16 +188,16 @@
         <joint name="ah_joint23" value="1"/>
         <joint name="ah_joint30" value="0"/>
         <joint name="ah_joint31" value="1.4"/>
-    </group_state>
-    <group_state name="place_obj_w_it" group="hand">
-        <joint name="ah_joint10" value="-0.2"/>
-        <joint name="ah_joint11" value="0.2"/>
         <joint name="ah_joint32" value="1.4"/>
         <joint name="ah_joint33" value="1"/>
+    </group_state>
+    <group_state name="place_obj_w_it" group="hand">
         <joint name="ah_joint00" value="1.3"/>
         <joint name="ah_joint01" value="0"/>
         <joint name="ah_joint02" value="0.1"/>
         <joint name="ah_joint03" value="0.3"/>
+        <joint name="ah_joint10" value="-0.2"/>
+        <joint name="ah_joint11" value="0.2"/>
         <joint name="ah_joint12" value="0.6"/>
         <joint name="ah_joint13" value="0.2"/>
         <joint name="ah_joint20" value="0"/>
@@ -220,16 +206,16 @@
         <joint name="ah_joint23" value="1"/>
         <joint name="ah_joint30" value="0"/>
         <joint name="ah_joint31" value="1.4"/>
+        <joint name="ah_joint32" value="1.4"/>
+        <joint name="ah_joint33" value="1"/>
     </group_state>
     <group_state name="place_pick_w_all" group="hand">
-        <joint name="ah_joint10" value="0"/>
-        <joint name="ah_joint11" value="0"/>
-        <joint name="ah_joint32" value="0"/>
-        <joint name="ah_joint33" value="0.5"/>
         <joint name="ah_joint00" value="1.3083"/>
         <joint name="ah_joint01" value="0"/>
         <joint name="ah_joint02" value="0.5"/>
         <joint name="ah_joint03" value="0.491"/>
+        <joint name="ah_joint10" value="0"/>
+        <joint name="ah_joint11" value="0"/>
         <joint name="ah_joint12" value="0"/>
         <joint name="ah_joint13" value="0.5"/>
         <joint name="ah_joint20" value="0"/>
@@ -238,16 +224,16 @@
         <joint name="ah_joint23" value="0.5"/>
         <joint name="ah_joint30" value="0"/>
         <joint name="ah_joint31" value="0"/>
+        <joint name="ah_joint32" value="0"/>
+        <joint name="ah_joint33" value="0.5"/>
     </group_state>
     <group_state name="pick_obj_w_all" group="hand">
-        <joint name="ah_joint10" value="0.1636"/>
-        <joint name="ah_joint11" value="1.2707"/>
-        <joint name="ah_joint32" value="0.6271"/>
-        <joint name="ah_joint33" value="0.547"/>
         <joint name="ah_joint00" value="1.3113"/>
         <joint name="ah_joint01" value="0.7006"/>
         <joint name="ah_joint02" value="0.6111"/>
         <joint name="ah_joint03" value="0.488"/>
+        <joint name="ah_joint10" value="0.1636"/>
+        <joint name="ah_joint11" value="1.2707"/>
         <joint name="ah_joint12" value="0.65"/>
         <joint name="ah_joint13" value="0.55"/>
         <joint name="ah_joint20" value="-0.009"/>
@@ -256,16 +242,16 @@
         <joint name="ah_joint23" value="0.512"/>
         <joint name="ah_joint30" value="-0.19"/>
         <joint name="ah_joint31" value="1.3605"/>
+        <joint name="ah_joint32" value="0.6271"/>
+        <joint name="ah_joint33" value="0.547"/>
     </group_state>
     <group_state name="pick_obj_w_it2" group="hand">
-        <joint name="ah_joint10" value="-0.2"/>
-        <joint name="ah_joint11" value="0.9814"/>
-        <joint name="ah_joint32" value="0.2317"/>
-        <joint name="ah_joint33" value="0.1705"/>
         <joint name="ah_joint00" value="1.212"/>
         <joint name="ah_joint01" value="0"/>
         <joint name="ah_joint02" value="0.173"/>
         <joint name="ah_joint03" value="1.1389"/>
+        <joint name="ah_joint10" value="-0.2"/>
+        <joint name="ah_joint11" value="0.9814"/>
         <joint name="ah_joint12" value="0.9392"/>
         <joint name="ah_joint13" value="0.6496"/>
         <joint name="ah_joint20" value="-0.0857"/>
@@ -274,16 +260,16 @@
         <joint name="ah_joint23" value="0.1807"/>
         <joint name="ah_joint30" value="-0.1169"/>
         <joint name="ah_joint31" value="0.1004"/>
+        <joint name="ah_joint32" value="0.2317"/>
+        <joint name="ah_joint33" value="0.1705"/>
     </group_state>
     <group_state name="pick_obj_w_all2" group="hand">
-        <joint name="ah_joint10" value="0.1117"/>
-        <joint name="ah_joint11" value="1.2108"/>
-        <joint name="ah_joint32" value="0.6271"/>
-        <joint name="ah_joint33" value="0.547"/>
         <joint name="ah_joint00" value="1.3113"/>
         <joint name="ah_joint01" value="0.7126"/>
         <joint name="ah_joint02" value="0.6111"/>
         <joint name="ah_joint03" value="0.488"/>
+        <joint name="ah_joint10" value="0.1117"/>
+        <joint name="ah_joint11" value="1.2108"/>
         <joint name="ah_joint12" value="0.65"/>
         <joint name="ah_joint13" value="0.55"/>
         <joint name="ah_joint20" value="-0.0338"/>
@@ -292,13 +278,9 @@
         <joint name="ah_joint23" value="0.512"/>
         <joint name="ah_joint30" value="-0.1792"/>
         <joint name="ah_joint31" value="1.2507"/>
+        <joint name="ah_joint32" value="0.6271"/>
+        <joint name="ah_joint33" value="0.547"/>
     </group_state>
-
-    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
-    <end_effector name="ee_index" parent_link="ah_palm_link" group="index_controller" parent_group="hand"/>
-    <end_effector name="ee_middle" parent_link="ah_palm_link" group="middle_controller" parent_group="hand"/>
-    <end_effector name="ee_ring" parent_link="ah_palm_link" group="ring_controller" parent_group="hand"/>
-    <end_effector name="ee_thumb" parent_link="ah_palm_link" group="thumb_controller" parent_group="hand"/>
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
     <virtual_joint name="virtual_joint" type="fixed" parent_frame="world" child_link="ah_base_link"/>
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
