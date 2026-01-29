@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="allegro_hand">
+    <xacro:arg name="ros2_control_hardware_type" default="mock_components" />
+    <xacro:arg name="hand" default="left" />
+    <xacro:arg name="hand_id" default="1" />
+
+    <xacro:arg name="initial_positions_file" default="initial_positions.yaml" />
+    <xacro:arg name="pd_gains_file" default="$(find allegro_hand_v4_description)/config/pd_gains.yaml" /> 
+    <xacro:arg name="ah_prefix" default="ah_" />
+
+    <!-- Import allegro_hand urdf file -->
+    <xacro:property name="hand_arg" value="$(arg hand)"/>
+
+    <xacro:if value="${hand_arg == 'right'}"> 
+        <xacro:include filename="$(find allegro_hand_v4_description)/urdf/allegro_hand_description_right.xacro" />
+        <xacro:allegro_hand_right prefix="$(arg ah_prefix)"/>
+    </xacro:if>
+    
+    <xacro:if value="${hand_arg == 'left'}">
+        <xacro:include filename="$(find allegro_hand_v4_description)/urdf/allegro_hand_description_left.xacro" />
+        <xacro:allegro_hand_left prefix="$(arg ah_prefix)"/>
+    </xacro:if>
+
+    <!-- Import control_xacro -->
+    <xacro:include filename="allegro_hand.ros2_control.xacro" />
+    <xacro:allegro_hand_ros2_control
+        name="AllegroHandV4"
+        initial_positions_file="$(arg initial_positions_file)"
+        pd_gains_file="$(arg pd_gains_file)"
+        io_interface_descriptor="can:can0"
+        hand_id="$(arg hand_id)"
+        prefix="$(arg ah_prefix)"
+        ros2_control_hardware_type="$(arg ros2_control_hardware_type)"
+    /> 
+
+</robot>

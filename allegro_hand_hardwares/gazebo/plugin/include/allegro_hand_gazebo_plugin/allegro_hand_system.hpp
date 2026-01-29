@@ -65,7 +65,7 @@ public:
 
   // Documentation Inherited
   bool initSim(rclcpp::Node::SharedPtr& model_nh, std::map<std::string, sim::Entity>& joints,
-               const hardware_interface::HardwareInfo& hardware_info, sim::EntityComponentManager& _ecm, int& update_rate) override;
+               const hardware_interface::HardwareInfo& hardware_info, sim::EntityComponentManager& _ecm, unsigned int update_rate) override;
 
 private:
   // Register a sensor (for now just IMUs)

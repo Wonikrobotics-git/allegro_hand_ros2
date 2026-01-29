@@ -219,7 +219,7 @@ public:
   sim::EntityComponentManager* ecm;
 
   /// \brief controller update rate
-  int* update_rate;
+  unsigned int update_rate;
 
   /// \brief Ignition communication node.
   GZ_TRANSPORT_NAMESPACE Node node;
@@ -233,7 +233,7 @@ public:
 
 namespace allegro_hand_gazebo_plugin {
 bool AllegroHand::initSim(rclcpp::Node::SharedPtr& model_nh, std::map<std::string, sim::Entity>& enableJoints,
-                          const hardware_interface::HardwareInfo& hardware_info, sim::EntityComponentManager& _ecm, int& update_rate) {
+                          const hardware_interface::HardwareInfo& hardware_info, sim::EntityComponentManager& _ecm, unsigned int update_rate) {
   this->dataPtr = std::make_unique<GazeboSimSystemPrivate>();
   this->dataPtr->last_update_sim_time_ros_ = rclcpp::Time();
 
@@ -241,7 +241,7 @@ bool AllegroHand::initSim(rclcpp::Node::SharedPtr& model_nh, std::map<std::strin
   this->dataPtr->ecm = &_ecm;
   this->dataPtr->n_dof_ = hardware_info.joints.size();
 
-  this->dataPtr->update_rate = &update_rate;
+  this->dataPtr->update_rate = update_rate;
 
   RCLCPP_DEBUG(this->nh_->get_logger(), "n_dof_ %lu", this->dataPtr->n_dof_);
 
@@ -539,7 +539,7 @@ CallbackReturn AllegroHand::on_init(const hardware_interface::HardwareInfo& syst
   if (hardware_interface::SystemInterface::on_init(system_info) != CallbackReturn::SUCCESS) {
     return CallbackReturn::ERROR;
   }
-  if (system_info.hardware_class_type.compare("gz_ros2_control/AllegroHand") != 0) {
+  if (system_info.type.compare("gz_ros2_control/AllegroHand") != 0) {
     RCLCPP_WARN(this->nh_->get_logger(), "The ign_ros2_control plugin got renamed to gz_ros2_control.\n"
                                          "Update the <ros2_control> tag and gazebo plugin to\n"
                                          "<hardware>\n"
@@ -728,7 +728,7 @@ hardware_interface::return_type AllegroHand::write(const rclcpp::Time& /*time*/,
     } else if (this->dataPtr->joints_[i].joint_control_method & POSITION) {
       // Get error in position
       double error;
-      error = (this->dataPtr->joints_[i].joint_position - this->dataPtr->joints_[i].joint_position_cmd) * *this->dataPtr->update_rate;
+      error = (this->dataPtr->joints_[i].joint_position - this->dataPtr->joints_[i].joint_position_cmd) * this->dataPtr->update_rate;
 
       // Calculate target velcity
       double target_vel = -this->dataPtr->position_proportional_gain_ * error;
@@ -776,7 +776,7 @@ hardware_interface::return_type AllegroHand::write(const rclcpp::Time& /*time*/,
 
         double position_error = position_mimic_joint - position_mimicked_joint * mimic_joint.multiplier;
 
-        double velocity_sp = (-1.0) * position_error * (*this->dataPtr->update_rate);
+        double velocity_sp = (-1.0) * position_error * (this->dataPtr->update_rate);
 
         auto vel =
             this->dataPtr->ecm->Component<sim::components::JointVelocityCmd>(this->dataPtr->joints_[mimic_joint.joint_index].sim_joint);

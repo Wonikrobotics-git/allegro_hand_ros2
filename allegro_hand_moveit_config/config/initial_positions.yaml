@@ -1,0 +1,19 @@
+# Default initial positions for allegro_hand's ros2_control fake system
+
+initial_positions:
+  ah_joint00: 0.85
+  ah_joint01: 0
+  ah_joint02: 0
+  ah_joint03: 0
+  ah_joint10: 0
+  ah_joint11: 0
+  ah_joint12: 0
+  ah_joint13: 0
+  ah_joint20: 0
+  ah_joint21: 0
+  ah_joint22: 0
+  ah_joint23: 0
+  ah_joint30: 0
+  ah_joint31: 0
+  ah_joint32: 0
+  ah_joint33: 0

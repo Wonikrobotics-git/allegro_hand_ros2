@@ -1,0 +1,340 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="allegro_hand_ros2_control" params="name initial_positions_file pd_gains_file io_interface_descriptor hand_id prefix ros2_control_hardware_type">
+        <xacro:property name="initial_positions" value="${xacro.load_yaml(initial_positions_file)['initial_positions']}"/>
+        <xacro:property name="p_gains" value="${xacro.load_yaml(pd_gains_file)['p_gains']}"/>
+        <xacro:property name="d_gains" value="${xacro.load_yaml(pd_gains_file)['d_gains']}"/>
+
+        <ros2_control name="${name}" type="system">
+            <hardware>
+                <xacro:if value="${ros2_control_hardware_type == 'mock_components'}">
+                    <plugin>mock_components/GenericSystem</plugin>
+                </xacro:if>
+                <xacro:if value="${ros2_control_hardware_type == 'physical_device'}">
+                    <plugin>allegro_hand_v4_hardware/AllegroHandV4HardwareInterface</plugin>
+                    <param name="io_interface_descriptor">${io_interface_descriptor}</param>
+                    <param name="hand_id">${hand_id}</param>
+                    <param name="device_prefix">${prefix}</param>
+                    <param name="p_joint00">${p_gains['joint00']}</param>
+                    <param name="p_joint01">${p_gains['joint01']}</param>
+                    <param name="p_joint02">${p_gains['joint02']}</param>
+                    <param name="p_joint03">${p_gains['joint03']}</param>                
+                    <param name="p_joint10">${p_gains['joint10']}</param>
+                    <param name="p_joint11">${p_gains['joint11']}</param>
+                    <param name="p_joint12">${p_gains['joint12']}</param>
+                    <param name="p_joint13">${p_gains['joint13']}</param>
+                    <param name="p_joint20">${p_gains['joint20']}</param>
+                    <param name="p_joint21">${p_gains['joint21']}</param>
+                    <param name="p_joint22">${p_gains['joint22']}</param>
+                    <param name="p_joint23">${p_gains['joint23']}</param>
+                    <param name="p_joint30">${p_gains['joint30']}</param>
+                    <param name="p_joint31">${p_gains['joint31']}</param>
+                    <param name="p_joint32">${p_gains['joint32']}</param>
+                    <param name="p_joint33">${p_gains['joint33']}</param>
+                    <param name="d_joint00">${d_gains['joint00']}</param>
+                    <param name="d_joint01">${d_gains['joint01']}</param>
+                    <param name="d_joint02">${d_gains['joint02']}</param>
+                    <param name="d_joint03">${d_gains['joint03']}</param>   
+                    <param name="d_joint10">${d_gains['joint10']}</param>
+                    <param name="d_joint11">${d_gains['joint11']}</param>
+                    <param name="d_joint12">${d_gains['joint12']}</param>
+                    <param name="d_joint13">${d_gains['joint13']}</param>
+                    <param name="d_joint20">${d_gains['joint20']}</param>
+                    <param name="d_joint21">${d_gains['joint21']}</param>
+                    <param name="d_joint22">${d_gains['joint22']}</param>
+                    <param name="d_joint23">${d_gains['joint23']}</param>
+                    <param name="d_joint30">${d_gains['joint30']}</param>
+                    <param name="d_joint31">${d_gains['joint31']}</param>
+                    <param name="d_joint32">${d_gains['joint32']}</param>
+                    <param name="d_joint33">${d_gains['joint33']}</param>
+                </xacro:if>
+            </hardware>
+
+            <joint name="${prefix}joint00">
+                <command_interface name="position"/>
+                <command_interface name="effort"/>
+                <state_interface name="position">
+                  <param name="initial_value">${initial_positions['ah_joint00']}</param>
+                </state_interface>
+                <state_interface name="velocity">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="effort">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="temperature">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+            </joint>
+
+            <joint name="${prefix}joint01">
+                <command_interface name="position"/>
+                <command_interface name="effort"/>
+                <state_interface name="position">
+                  <param name="initial_value">${initial_positions['ah_joint01']}</param>
+                </state_interface>
+                <state_interface name="velocity">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="effort">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="temperature">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+            </joint>
+
+            <joint name="${prefix}joint02">
+                <command_interface name="position"/>
+                <command_interface name="effort"/>
+                <state_interface name="position">
+                  <param name="initial_value">${initial_positions['ah_joint02']}</param>
+                </state_interface>
+                <state_interface name="velocity">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="effort">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="temperature">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+            </joint>
+
+            <joint name="${prefix}joint03">
+                <command_interface name="position"/>
+                <command_interface name="effort"/>
+                <state_interface name="position">
+                  <param name="initial_value">${initial_positions['ah_joint03']}</param>
+                </state_interface>
+                <state_interface name="velocity">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="effort">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="temperature">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+            </joint>
+
+            <joint name="${prefix}joint10">
+                <command_interface name="position"/>
+                <command_interface name="effort"/>
+                <state_interface name="position">
+                  <param name="initial_value">${initial_positions['ah_joint10']}</param>
+                </state_interface>
+                <state_interface name="velocity">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="effort">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="temperature">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+            </joint>
+
+            <joint name="${prefix}joint11">
+                <command_interface name="position"/>
+                <command_interface name="effort"/>
+                <state_interface name="position">
+                  <param name="initial_value">${initial_positions['ah_joint11']}</param>
+                </state_interface>
+                <state_interface name="velocity">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="effort">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="temperature">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+            </joint>
+
+            <joint name="${prefix}joint12">
+                <command_interface name="position"/>
+                <command_interface name="effort"/>
+                <state_interface name="position">
+                  <param name="initial_value">${initial_positions['ah_joint12']}</param>
+                </state_interface>
+                <state_interface name="velocity">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="effort">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="temperature">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+            </joint>
+
+            <joint name="${prefix}joint13">
+                <command_interface name="position"/>
+                <command_interface name="effort"/>
+                <state_interface name="position">
+                  <param name="initial_value">${initial_positions['ah_joint13']}</param>
+                </state_interface>
+                <state_interface name="velocity">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="effort">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="temperature">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+            </joint>
+
+            <joint name="${prefix}joint20">
+                <command_interface name="position"/>
+                <command_interface name="effort"/>
+                <state_interface name="position">
+                  <param name="initial_value">${initial_positions['ah_joint20']}</param>
+                </state_interface>
+                <state_interface name="velocity">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="effort">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="temperature">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+            </joint>
+
+            <joint name="${prefix}joint21">
+                <command_interface name="position"/>
+                <command_interface name="effort"/>
+                <state_interface name="position">
+                  <param name="initial_value">${initial_positions['ah_joint21']}</param>
+                </state_interface>
+                <state_interface name="velocity">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="effort">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="temperature">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+            </joint>
+
+            <joint name="${prefix}joint22">
+                <command_interface name="position"/>
+                <command_interface name="effort"/>
+                <state_interface name="position">
+                  <param name="initial_value">${initial_positions['ah_joint22']}</param>
+                </state_interface>
+                <state_interface name="velocity">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="effort">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="temperature">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+            </joint>
+
+            <joint name="${prefix}joint23">
+                <command_interface name="position"/>
+                <command_interface name="effort"/>
+                <state_interface name="position">
+                  <param name="initial_value">${initial_positions['ah_joint23']}</param>
+                </state_interface>
+                <state_interface name="velocity">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="effort">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="temperature">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+            </joint>
+
+            <joint name="${prefix}joint30">
+                <command_interface name="position"/>
+                <command_interface name="effort"/>
+                <state_interface name="position">
+                  <param name="initial_value">${initial_positions['ah_joint30']}</param>
+                </state_interface>
+                <state_interface name="velocity">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="effort">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="temperature">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+            </joint>
+
+            <joint name="${prefix}joint31">
+                <command_interface name="position"/>
+                <command_interface name="effort"/>
+                <state_interface name="position">
+                  <param name="initial_value">${initial_positions['ah_joint31']}</param>
+                </state_interface>
+                <state_interface name="velocity">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="effort">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="temperature">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+            </joint>
+
+            <joint name="${prefix}joint32">
+                <command_interface name="position"/>
+                <command_interface name="effort"/>
+                <state_interface name="position">
+                  <param name="initial_value">${initial_positions['ah_joint32']}</param>
+                </state_interface>
+                <state_interface name="velocity">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="effort">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="temperature">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+            </joint>
+
+            <joint name="${prefix}joint33">
+                <command_interface name="position"/>
+                <command_interface name="effort"/>
+                <state_interface name="position">
+                  <param name="initial_value">${initial_positions['ah_joint33']}</param>
+                </state_interface>
+                <state_interface name="velocity">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="effort">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+                <state_interface name="temperature">
+                  <param name="initial_value">0.0</param>
+                </state_interface>
+            </joint>
+
+            <sensor name="${prefix}imu">
+                <state_interface name="orientation.x"/>
+                <state_interface name="orientation.y"/>
+                <state_interface name="orientation.z"/>
+                <state_interface name="orientation.w"/>
+                <state_interface name="linear_acceleration.x"/>
+                <state_interface name="linear_acceleration.y"/>
+                <state_interface name="linear_acceleration.z"/>
+                <state_interface name="angular_velocity.x"/>
+                <state_interface name="angular_velocity.y"/>
+                <state_interface name="angular_velocity.z"/>
+            </sensor>
+
+        </ros2_control>
+    </xacro:macro>
+</robot>
